@@ -1,0 +1,1525 @@
+<!doctype html>
+<html lang="zh-CN" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AMD锐龙主机配置对比平台</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              bg: "#0d1117",
+              surface: "#161b22",
+              border: "#30363d",
+              textPrimary: "#c9d1d9",
+              textSecondary: "#8b949e",
+              primary: "#58a6ff",
+              success: "#3fb950",
+              warning: "#d2a8ff",
+              danger: "#ff7b72",
+              hover: "#1f242c",
+            },
+            fontFamily: {
+              sans: [
+                "-apple-system",
+                "BlinkMacSystemFont",
+                "Segoe UI",
+                "Helvetica",
+                "Arial",
+                "sans-serif",
+              ],
+            },
+          },
+        },
+      };
+    </script>
+    <style type="text/tailwindcss">
+      @layer utilities {
+        .card-shadow {
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        }
+        .hover-lift {
+          transition: all 0.3s ease;
+        }
+        .hover-lift:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+        }
+      }
+      body {
+        background-color: #0d1117;
+        color: #c9d1d9;
+      }
+      select {
+        background-color: #0d1117;
+        color: #c9d1d9;
+      }
+
+      /* Custom scrollbar for table */
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #0d1117;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #30363d;
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #8b949e;
+      }
+    </style>
+  </head>
+  <body class="font-sans antialiased">
+    <!-- Header -->
+    <header
+      class="sticky top-0 z-50 bg-surface border-b border-border shadow-sm"
+    >
+      <div
+        class="container mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center"
+      >
+        <h1
+          class="text-2xl font-bold text-primary flex items-center mb-2 md:mb-0"
+        >
+          <i class="fa fa-desktop mr-2"></i>23套硬件配置数据看板
+        </h1>
+        <div class="text-sm text-textSecondary flex items-center">
+          <i class="fa fa-clock-o mr-1"></i> 数据更新：2026-06-03 |
+          支持点击表头或拖拽排序
+        </div>
+      </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+      <!-- Dashboard Stats -->
+      <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
+        <div
+          class="bg-surface border border-border rounded-xl p-4 card-shadow hover-lift"
+        >
+          <div class="text-sm text-textSecondary mb-1">总配置数</div>
+          <div class="text-3xl font-bold text-primary">23</div>
+        </div>
+        <div
+          class="bg-surface border border-border rounded-xl p-4 card-shadow hover-lift"
+        >
+          <div class="text-sm text-textSecondary mb-1">核显方案</div>
+          <div class="text-3xl font-bold text-textPrimary">17</div>
+        </div>
+        <div
+          class="bg-surface border border-border rounded-xl p-4 card-shadow hover-lift"
+        >
+          <div class="text-sm text-textSecondary mb-1">独显方案</div>
+          <div class="text-3xl font-bold text-success">6</div>
+        </div>
+        <div
+          class="bg-surface border border-border rounded-xl p-4 card-shadow hover-lift"
+        >
+          <div class="text-sm text-textSecondary mb-1">最低价格</div>
+          <div class="text-3xl font-bold text-danger">2899</div>
+        </div>
+        <div
+          class="bg-surface border border-border rounded-xl p-4 card-shadow hover-lift"
+        >
+          <div class="text-sm text-textSecondary mb-1">最高价格</div>
+          <div class="text-3xl font-bold text-danger">8600</div>
+        </div>
+      </div>
+
+      <!-- Charts -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+        <div class="bg-surface border border-border rounded-xl p-6 card-shadow">
+          <h2
+            class="text-lg font-semibold mb-4 flex items-center text-textPrimary"
+          >
+            <i class="fa fa-pie-chart mr-2 text-primary"></i>CPU型号分布
+          </h2>
+          <div class="h-64">
+            <canvas id="cpuChart"></canvas>
+          </div>
+        </div>
+        <div class="bg-surface border border-border rounded-xl p-6 card-shadow">
+          <h2
+            class="text-lg font-semibold mb-4 flex items-center text-textPrimary"
+          >
+            <i class="fa fa-bar-chart mr-2 text-primary"></i>价格区间分布
+          </h2>
+          <div class="h-64">
+            <canvas id="priceChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filters -->
+      <div
+        class="bg-surface border border-border rounded-xl p-6 mb-8 card-shadow"
+      >
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-4">
+          <h2
+            class="text-lg font-semibold flex items-center text-textPrimary"
+          >
+            <i class="fa fa-filter mr-2 text-primary"></i>配置筛选
+          </h2>
+          <div class="flex items-center space-x-2 bg-bg p-2 rounded-lg border border-border">
+            <span class="text-sm font-medium text-textSecondary"><i class="fa fa-bolt text-warning mr-1"></i>一键加装显卡(无卡套餐)：</span>
+            <select id="bulkAddGpu" onchange="bulkAddGPU(this.value)" class="px-2 py-1 bg-surface border border-border rounded focus:ring-1 focus:ring-primary outline-none text-sm cursor-pointer hover:border-primary transition-colors text-textPrimary">
+                <option value="">还原默认 (不加装)</option>
+                <option value="5060ti">全部 +5060Ti 8G (¥2600)</option>
+                <option value="5070">全部 +5070 12G (¥4300)</option>
+            </select>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-textSecondary mb-1"
+              >CPU型号</label
+            >
+            <select
+              id="cpuFilter"
+              class="w-full px-3 py-2 bg-bg border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-shadow"
+            >
+              <option value="all">全部CPU</option>
+              <option value="9600X">R5-9600X</option>
+              <option value="9700X">R7-9700X</option>
+              <option value="7800X3D">R7-7800X3D</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-textSecondary mb-1"
+              >显卡类型</label
+            >
+            <select
+              id="gpuFilter"
+              class="w-full px-3 py-2 bg-bg border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-shadow"
+            >
+              <option value="all">全部显卡</option>
+              <option value="无">核显方案</option>
+              <option value="5060">RTX 5060 Ti</option>
+              <option value="5070">RTX 5070</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-textSecondary mb-1"
+              >价格区间</label
+            >
+            <select
+              id="priceFilter"
+              class="w-full px-3 py-2 bg-bg border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-shadow"
+            >
+              <option value="all">全部价格</option>
+              <option value="3000">3000元以下</option>
+              <option value="3000-3500">3000-3500元</option>
+              <option value="3500-4000">3500-4000元</option>
+              <option value="4000-4500">4000-4500元</option>
+              <option value="4500">4500元以上</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-textSecondary mb-1"
+              >排序方式</label
+            >
+            <select
+              id="sortFilter"
+              class="w-full px-3 py-2 bg-bg border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-shadow"
+            >
+              <option value="id-asc">默认序号排序</option>
+              <option value="price-asc">价格从低到高</option>
+              <option value="price-desc">价格从高到低</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-textSecondary mb-1"
+              >主板</label
+            >
+            <select
+              id="mbFilter"
+              class="w-full px-3 py-2 bg-bg border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-shadow text-textPrimary"
+            >
+              <option value="all">全部主板</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-textSecondary mb-1"
+              >散热</label
+            >
+            <select
+              id="coolingFilter"
+              class="w-full px-3 py-2 bg-bg border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-shadow text-textPrimary"
+            >
+              <option value="all">全部散热</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-textSecondary mb-1"
+              >内存</label
+            >
+            <select
+              id="ramFilter"
+              class="w-full px-3 py-2 bg-bg border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-shadow text-textPrimary"
+            >
+              <option value="all">全部内存</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-textSecondary mb-1"
+              >固态</label
+            >
+            <select
+              id="ssdFilter"
+              class="w-full px-3 py-2 bg-bg border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-shadow text-textPrimary"
+            >
+              <option value="all">全部固态</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-textSecondary mb-1"
+              >电源型号</label
+            >
+            <select
+              id="psuFilter"
+              class="w-full px-3 py-2 bg-bg border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-shadow text-textPrimary"
+            >
+              <option value="all">全部型号</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-textSecondary mb-1"
+              >电源瓦数</label
+            >
+            <select
+              id="psuWattFilter"
+              class="w-full px-3 py-2 bg-bg border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-shadow text-textPrimary"
+            >
+              <option value="all">全部瓦数</option>
+              <option value="600w">600W</option>
+              <option value="650w">650W</option>
+              <option value="700w">700W</option>
+              <option value="750w">750W</option>
+              <option value="800w">800W</option>
+              <option value="850w">850W</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-textSecondary mb-1"
+              >电源等级</label
+            >
+            <select
+              id="psuRatingFilter"
+              class="w-full px-3 py-2 bg-bg border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-shadow text-textPrimary"
+            >
+              <option value="all">全部等级</option>
+              <option value="白牌">白牌</option>
+              <option value="铜牌">铜牌</option>
+              <option value="金牌">金牌</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-textSecondary mb-1"
+              >机箱</label
+            >
+            <select
+              id="caseFilter"
+              class="w-full px-3 py-2 bg-bg border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-shadow text-textPrimary"
+            >
+              <option value="all">全部机箱</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Data Table -->
+      <div
+        class="bg-surface border border-border rounded-xl mb-8 card-shadow overflow-hidden"
+      >
+        <div
+          class="p-6 border-b border-border flex justify-between items-center"
+        >
+          <h2 class="text-lg font-semibold flex items-center text-textPrimary">
+            <i class="fa fa-list mr-2 text-primary"></i>配置详情列表
+          </h2>
+          <span class="text-xs text-textSecondary"
+            >（可拖拽行或点击表头排序）</span
+          >
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm text-left">
+            <thead class="bg-[#21262d] text-textPrimary select-none">
+              <tr>
+                <th
+                  class="px-4 py-4 font-semibold cursor-pointer hover:text-primary transition-colors whitespace-nowrap"
+                  onclick="sortTable('序号')"
+                >
+                  序号 ⇕
+                </th>
+                <th
+                  class="px-4 py-4 font-semibold cursor-pointer hover:text-primary transition-colors whitespace-nowrap"
+                  onclick="sortTable('套餐名称')"
+                >
+                  套餐名称 ⇕
+                </th>
+                <th
+                  class="px-4 py-4 font-semibold cursor-pointer hover:text-primary transition-colors whitespace-nowrap"
+                  onclick="sortTable('到手价')"
+                >
+                  到手价 ⇕
+                </th>
+                <th
+                  class="px-4 py-4 font-semibold cursor-pointer hover:text-primary transition-colors whitespace-nowrap"
+                  onclick="sortTable('CPU')"
+                >
+                  CPU ⇕
+                </th>
+                <th
+                  class="px-4 py-4 font-semibold cursor-pointer hover:text-primary transition-colors whitespace-nowrap"
+                  onclick="sortTable('主板')"
+                >
+                  主板 ⇕
+                </th>
+                <th
+                  class="px-4 py-4 font-semibold cursor-pointer hover:text-primary transition-colors whitespace-nowrap"
+                  onclick="sortTable('散热')"
+                >
+                  散热 ⇕
+                </th>
+                <th
+                  class="px-4 py-4 font-semibold cursor-pointer hover:text-primary transition-colors whitespace-nowrap"
+                  onclick="sortTable('内存')"
+                >
+                  内存 ⇕
+                </th>
+                <th
+                  class="px-4 py-4 font-semibold cursor-pointer hover:text-primary transition-colors whitespace-nowrap"
+                  onclick="sortTable('固态')"
+                >
+                  固态 ⇕
+                </th>
+                <th
+                  class="px-4 py-4 font-semibold cursor-pointer hover:text-primary transition-colors whitespace-nowrap"
+                  onclick="sortTable('独显')"
+                >
+                  显卡 ⇕
+                </th>
+                <th
+                  class="px-4 py-4 font-semibold cursor-pointer hover:text-primary transition-colors whitespace-nowrap"
+                  onclick="sortTable('电源')"
+                >
+                  电源 ⇕
+                </th>
+                <th
+                  class="px-4 py-4 font-semibold cursor-pointer hover:text-primary transition-colors whitespace-nowrap"
+                  onclick="sortTable('机箱')"
+                >
+                  机箱 ⇕
+                </th>
+                <th class="px-4 py-4 font-semibold min-w-[200px]">
+                  备注 & 升级
+                </th>
+                <th
+                  class="px-4 py-4 font-semibold text-center whitespace-nowrap"
+                >
+                  操作
+                </th>
+              </tr>
+            </thead>
+            <tbody id="configTable" class="divide-y divide-border cursor-move">
+              <!-- JS generated -->
+            </tbody>
+          </table>
+          <div id="noData" class="hidden p-8 text-center text-textSecondary">
+            <i class="fa fa-inbox text-3xl mb-2"></i>
+            <p>没有找到符合条件的配置</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recommendations -->
+      <div
+        class="bg-surface border border-border rounded-xl p-6 card-shadow mb-8"
+      >
+        <h2
+          class="text-lg font-semibold mb-6 flex items-center text-textPrimary"
+        >
+          <i class="fa fa-star mr-2 text-warning"></i>同价位性价比TOP3推荐
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <!-- Rec 1 -->
+          <div
+            class="border border-border rounded-lg p-5 hover-lift bg-bg relative overflow-hidden"
+          >
+            <div
+              class="absolute top-0 right-0 bg-primary text-white text-xs font-bold px-3 py-1 rounded-bl-lg"
+            >
+              TOP 1
+            </div>
+            <div class="text-sm text-textSecondary mb-2">
+              3000元以内 入门首选
+            </div>
+            <h3 class="text-lg font-bold text-textPrimary mb-2">
+              华硕 R5-9600X 白款
+            </h3>
+            <div class="text-2xl font-bold text-danger mb-4">2899元</div>
+            <ul class="text-sm space-y-3 mb-4 text-textSecondary">
+              <li class="flex items-start">
+                <i class="fa fa-check-circle text-success mr-2 mt-1"></i>
+                <span>免费升B850M-F WIFI主板</span>
+              </li>
+              <li class="flex items-start">
+                <i class="fa fa-check-circle text-success mr-2 mt-1"></i>
+                <span>6核12线程+6热管风冷</span>
+              </li>
+            </ul>
+          </div>
+          <!-- Rec 2 -->
+          <div
+            class="border border-border rounded-lg p-5 hover-lift bg-bg relative overflow-hidden"
+          >
+            <div
+              class="absolute top-0 right-0 bg-primary text-white text-xs font-bold px-3 py-1 rounded-bl-lg"
+            >
+              TOP 2
+            </div>
+            <div class="text-sm text-textSecondary mb-2">
+              3500-4000元 中高端首选
+            </div>
+            <h3 class="text-lg font-bold text-textPrimary mb-2">
+              微星爆破弹 9700X 1TB
+            </h3>
+            <div class="text-2xl font-bold text-danger mb-4">3999元</div>
+            <ul class="text-sm space-y-3 mb-4 text-textSecondary">
+              <li class="flex items-start">
+                <i class="fa fa-check-circle text-success mr-2 mt-1"></i>
+                <span>1TB西数SN3000高速固态</span>
+              </li>
+              <li class="flex items-start">
+                <i class="fa fa-check-circle text-success mr-2 mt-1"></i>
+                <span>海力士A-die内存终身质保</span>
+              </li>
+            </ul>
+          </div>
+          <!-- Rec 3 -->
+          <div
+            class="border border-border rounded-lg p-5 hover-lift bg-bg relative overflow-hidden"
+          >
+            <div
+              class="absolute top-0 right-0 bg-primary text-white text-xs font-bold px-3 py-1 rounded-bl-lg"
+            >
+              TOP 3
+            </div>
+            <div class="text-sm text-textSecondary mb-2">游戏向 性价比之王</div>
+            <h3 class="text-lg font-bold text-textPrimary mb-2">
+              微星 5060Ti+R5 9600X
+            </h3>
+            <div class="text-2xl font-bold text-danger mb-4">5699元</div>
+            <ul class="text-sm space-y-3 mb-4 text-textSecondary">
+              <li class="flex items-start">
+                <i class="fa fa-check-circle text-success mr-2 mt-1"></i>
+                <span>RTX5060Ti FIRE 8G独显</span>
+              </li>
+              <li class="flex items-start">
+                <i class="fa fa-check-circle text-success mr-2 mt-1"></i>
+                <span>微星一线主板+海盗船内存</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Image Gallery -->
+      <div
+        class="bg-surface border border-border rounded-xl p-6 card-shadow mb-8"
+      >
+        <h2
+          class="text-lg font-semibold mb-2 flex items-center text-textPrimary"
+        >
+          <i class="fa fa-camera mr-2 text-primary"></i>配置参考图赏
+        </h2>
+        <div class="text-xs text-textSecondary mb-6">
+          （点击可查看高清大图）
+        </div>
+        <div
+          class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4"
+          id="imageGallery"
+        >
+          <!-- JS generated -->
+        </div>
+      </div>
+
+      <!-- Upgrade Guide -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+        <div class="bg-surface border border-border rounded-xl p-6 card-shadow">
+          <h2
+            class="text-lg font-semibold mb-6 flex items-center text-textPrimary"
+          >
+            <i class="fa fa-thumbs-up mr-2 text-success"></i
+            >必升项目（性价比最高）
+          </h2>
+          <ul class="space-y-5">
+            <li class="flex items-start">
+              <div
+                class="w-10 h-10 rounded-full bg-success/10 flex items-center justify-center mr-4 flex-shrink-0"
+              >
+                <i class="fa fa-arrow-up text-success"></i>
+              </div>
+              <div>
+                <div class="font-medium text-textPrimary text-base mb-1">
+                  固态升级至1TB
+                </div>
+                <div class="text-sm text-textSecondary leading-relaxed">
+                  所有512G固态统一建议+300~350元升级至致态Ti600或西数SN3000，现代游戏及开发软件体积较大，1TB是起步容量。
+                </div>
+              </div>
+            </li>
+            <li class="flex items-start">
+              <div
+                class="w-10 h-10 rounded-full bg-success/10 flex items-center justify-center mr-4 flex-shrink-0"
+              >
+                <i class="fa fa-arrow-up text-success"></i>
+              </div>
+              <div>
+                <div class="font-medium text-textPrimary text-base mb-1">
+                  B650主板升B850
+                </div>
+                <div class="text-sm text-textSecondary leading-relaxed">
+                  优先选择免费或低价(300元以内)的升级套餐，B850提升了扩展性和未来战未来的兼容性，对后期升级很有帮助。
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="bg-surface border border-border rounded-xl p-6 card-shadow">
+          <h2
+            class="text-lg font-semibold mb-6 flex items-center text-textPrimary"
+          >
+            <i class="fa fa-thumbs-down mr-2 text-danger"></i
+            >避坑项目（不建议花钱）
+          </h2>
+          <ul class="space-y-5">
+            <li class="flex items-start">
+              <div
+                class="w-10 h-10 rounded-full bg-danger/10 flex items-center justify-center mr-4 flex-shrink-0"
+              >
+                <i class="fa fa-times text-danger"></i>
+              </div>
+              <div>
+                <div class="font-medium text-textPrimary text-base mb-1">
+                  高价升级带屏水冷
+                </div>
+                <div class="text-sm text-textSecondary leading-relaxed">
+                  +199元以上的带屏水冷性价比极低，锐龙7
+                  9700X发热并不大，普通6热管双塔风冷（如PA120等）已经足够压制。
+                </div>
+              </div>
+            </li>
+            <li class="flex items-start">
+              <div
+                class="w-10 h-10 rounded-full bg-danger/10 flex items-center justify-center mr-4 flex-shrink-0"
+              >
+                <i class="fa fa-times text-danger"></i>
+              </div>
+              <div>
+                <div class="font-medium text-textPrimary text-base mb-1">
+                  提前扩容至32G内存
+                </div>
+                <div class="text-sm text-textSecondary leading-relaxed">
+                  如果不确定是否需要，日常使用和轻度开发16G完全足够。创作需求可后期自行加装同型号内存，比套餐直接加价更划算。
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </main>
+
+    <footer class="bg-surface border-t border-border py-6 mt-auto">
+      <div
+        class="container mx-auto px-4 text-center text-textSecondary text-sm"
+      >
+        <p>
+          AMD锐龙主机配置对比平台 | 版本 v3.0 (Dark Mode Integrated) |
+          数据来源于表格数据提取
+        </p>
+      </div>
+    </footer>
+
+    <script>
+            const rawData = [
+        {
+          "Unnamed: 0": 9,
+          "序号": 1,
+          "套餐名称": "华硕 R5-9600X 白款",
+          "到手价": 2899,
+          "CPU": "R5 9600X 6 核 12 线程",
+          "主板": "华硕 B650M-F，免费升 B850M-F WIFI",
+          "散热": "冠捷 A600 六热管风冷",
+          "内存": "光威天策 16G 5600 镁光",
+          "固态": "赛可驰 SX400 512G",
+          "独显": "无 (核显)",
+          "电源": "冠捷稳静王 600W 白牌",
+          "机箱": "冠捷无立柱白海景房",
+          "备注 & 升级": "黑白机箱可选，整机 3 年保、顺丰",
+          "img": "fcf3900b5e054a47b27e5a934fd2aaf1.jpeg~tplv-a9rns2rl98-image.png"
+        },
+        {
+          "Unnamed: 0": 8,
+          "序号": 2,
+          "套餐名称": "华硕 R7-9700X 白款",
+          "到手价": 3399,
+          "CPU": "R7 9700X 8 核 16 线程",
+          "主板": "华硕 B650M-F，+299 升 B850M-AYW WIFI",
+          "散热": "冠捷 A600 六热管风冷",
+          "内存": "光威龙武 16G 6000 镁光",
+          "固态": "赛可驰 SX400 512G",
+          "独显": "无 (核显)",
+          "电源": "TT 途腾 800S 700W 白牌",
+          "机箱": "冠捷白色海景房",
+          "备注 & 升级": "+180 升级 6 把 ARGB 风扇",
+          "img": "b824e1af37c34f1f8d6b7a436e8d4176.jpeg~tplv-a9rns2rl98-image.png"
+        },
+        {
+          "Unnamed: 0": 7,
+          "序号": 3,
+          "套餐名称": "华硕 R7-7800X3D 白款",
+          "到手价": 4099,
+          "CPU": "R7 7800X3D 8 核 16 线程",
+          "主板": "华硕 B850M-AYW WIFI",
+          "散热": "酷里奥 A60-H，限时免费升 TT V240 水冷",
+          "内存": "光威龙武 16G 6000 镁光",
+          "固态": "赛可驰 SX400 512G",
+          "独显": "无 (核显)",
+          "电源": "TT 途腾 800S 700W 白牌",
+          "机箱": "冠捷白色海景房",
+          "备注 & 升级": "纯白定制，整机三年质保",
+          "img": "b12f5c7d745043129eb72f48d0fab9bf.jpeg~tplv-a9rns2rl98-image.png"
+        },
+        {
+          "Unnamed: 0": 14,
+          "序号": 4,
+          "套餐名称": "半岛铁盒风冷 9700X",
+          "到手价": 3599,
+          "CPU": "R7 9700X",
+          "主板": "华硕 B850M-F WIFI",
+          "散热": "半岛铁盒神冰 600S 单塔风冷",
+          "内存": "宇瞻暗黑 16G 6000 C38",
+          "固态": "宏碁 N3500 512G",
+          "独显": "无 (核显)",
+          "电源": "联力 CR750W 白牌",
+          "机箱": "白泽 360U 海景房",
+          "备注 & 升级": "赠 3 风扇；+90 加 3 把 /+180 加 6 棱镜",
+          "img": "11ec290bf2174e0f9ed5f31acb778e99.jpeg~tplv-a9rns2rl98-image.png"
+        },
+        {
+          "Unnamed: 0": 10,
+          "序号": 5,
+          "套餐名称": "半岛铁盒水冷 9700X",
+          "到手价": 3599,
+          "CPU": "R7 9700X",
+          "主板": "微星 PRO B850M-B GEN4，+600 升华硕 TUF B850M",
+          "散热": "冰脉 360 一体式水冷",
+          "内存": "宇瞻暗黑 16G 6000",
+          "固态": "宏碁 N3500 512G，+350 换致态 Ti600 1TB",
+          "独显": "无 (核显)",
+          "电源": "联力 CR750W 白牌",
+          "机箱": "白泽 360U 海景房",
+          "备注 & 升级": "预装 win11，原厂无风扇",
+          "img": ""
+        },
+        {
+          "Unnamed: 0": 11,
+          "序号": 6,
+          "套餐名称": "影驰 B850-AYW 9700X 1TB",
+          "到手价": 4149,
+          "CPU": "R7 9700X",
+          "主板": "华硕 B850M-AYW WIFI",
+          "散热": "影驰六铜管 ARGB 风冷",
+          "内存": "异极 ROG 联名 16G 6000 C28",
+          "固态": "金士顿 NV3 1TB PCIE4",
+          "独显": "无 (核显)",
+          "电源": "影驰 750W 白牌",
+          "机箱": "影驰沐光 360M 黑海景",
+          "备注 & 升级": "默认无风扇，可自费加装",
+          "img": "f84e99f980b045adb54d0db2d0f37c56.jpeg~tplv-a9rns2rl98-image.png"
+        },
+        {
+          "Unnamed: 0": 15,
+          "序号": 7,
+          "套餐名称": "技嘉魔鹰 9700X",
+          "到手价": 4199,
+          "CPU": "R7 9700X",
+          "主板": "技嘉 B650M 魔鹰，+269 升 B850 战鹰 WIFI6E",
+          "散热": "超频三 RT620S 六管双塔",
+          "内存": "金百达黑刃 16G 6000 M-DIE",
+          "固态": "金百达 KP260PLUS 512G，+299 升级 1TB",
+          "独显": "无 (核显)",
+          "电源": "先马 GT750 750W 金牌全模",
+          "机箱": "先马小映像海景房",
+          "备注 & 升级": "标配 6 只棱镜 4PRO 风扇",
+          "img": "a5d14be359684b7493bad3f784ef1d82.jpeg~tplv-a9rns2rl98-image.png"
+        },
+        {
+          "Unnamed: 0": 3,
+          "序号": 8,
+          "套餐名称": "微星黑 S900 9700X",
+          "到手价": 3799,
+          "CPU": "R7 9700X",
+          "主板": "微星 B850M GAMING WIFI7",
+          "散热": "骨伽风擎 60 六热管，+199 升先马 XW360 带屏水冷",
+          "内存": "紫光 16G 6000 海力士 A-die C28，+1399 扩容",
+          "固态": "七彩虹 CN600 512G，+499 换 Ti600 1TB",
+          "独显": "无 (核显)",
+          "电源": "先马朱雀 750W PCIE5 白牌",
+          "机箱": "航嘉 S900 黑海景",
+          "备注 & 升级": "+119 加装 7 把棱镜 7PRO 风扇",
+          "img": "c7ee9102363b4bd98500a86fbde18bb3.jpeg~tplv-a9rns2rl98-image.png"
+        },
+        {
+          "Unnamed: 0": 2,
+          "序号": 9,
+          "套餐名称": "微星白 S900 9700X",
+          "到手价": 3950,
+          "CPU": "R7 9700X",
+          "主板": "微星 B850M GAMING WIFI7",
+          "散热": "乔思伯 CR1000MAX 白色六热管",
+          "内存": "紫光 16G 6000 C28",
+          "固态": "七彩虹 CN600 512G",
+          "独显": "无 (核显)",
+          "电源": "酷冷至尊 750W 铜牌白色",
+          "机箱": "航嘉 S900 白海景",
+          "备注 & 升级": "纯白整机，顺丰三年保",
+          "img": ""
+        },
+        {
+          "Unnamed: 0": 6,
+          "序号": 10,
+          "套餐名称": "微星爆破弹 9600X 1TB",
+          "到手价": 3599,
+          "CPU": "R5 9600X",
+          "主板": "技嘉 B650M 魔鹰 WIFI",
+          "散热": "骨伽风擎 60 六热管",
+          "内存": "科赋雷霆 V 16G 6000 C28 A-die",
+          "固态": "西数 SN3000 1TB",
+          "独显": "无 (核显)",
+          "电源": "技嘉战圣 P650G 650W 金牌",
+          "机箱": "爱国者炫影 G10 海景",
+          "备注 & 升级": "机箱二选一，出厂不带风扇",
+          "img": "aeb5045f5414479f83f198b5bf7285da.jpeg~tplv-a9rns2rl98-image.png"
+        },
+        {
+          "Unnamed: 0": 5,
+          "序号": 11,
+          "套餐名称": "微星爆破弹 9700X 1TB",
+          "到手价": 3999,
+          "CPU": "R7 9700X",
+          "主板": "微星 B650M 爆破弹 WIFI",
+          "散热": "超频三 RT620S 双塔六热管",
+          "内存": "科赋雷霆 V 16G 6000 C28",
+          "固态": "西数 SN3000 1TB",
+          "独显": "无 (核显)",
+          "电源": "技嘉战圣 P650G 650W 金牌",
+          "机箱": "爱国者炫影 G10 海景",
+          "备注 & 升级": "单面海力士内存终身质保",
+          "img": ""
+        },
+        {
+          "Unnamed: 0": 12,
+          "序号": 12,
+          "套餐名称": "华硕彗星 EVO 9700X 512G",
+          "到手价": 3749,
+          "CPU": "R7 9700X",
+          "主板": "华硕 B850M-AYW WIFI",
+          "散热": "鑫谷六热管塔式风冷",
+          "内存": "金士顿野兽 16G 6000 C36",
+          "固态": "七彩虹 CN600 512G，+349 升华为 200E 1TB",
+          "独显": "无 (核显)",
+          "电源": "华硕突击手 700W 铜牌全模",
+          "机箱": "华硕彗星 EVO 海景",
+          "备注 & 升级": "下单赠 3 把 ARGB 风扇",
+          "img": "8a00f0cc91b245e18f68210e19687d82.jpeg~tplv-a9rns2rl98-image.png"
+        },
+        {
+          "Unnamed: 0": 13,
+          "序号": 13,
+          "套餐名称": "华硕彗星 EVO 9700X 1TB",
+          "到手价": 4199,
+          "CPU": "R7 9700X",
+          "主板": "华硕 B850M-AYW WIFI",
+          "散热": "鑫谷六热管塔式风冷",
+          "内存": "金士顿野兽 16G 6000 C36",
+          "固态": "华为 200E 1TB 7000M/S",
+          "独显": "无 (核显)",
+          "电源": "宏碁 AC850 850W 金牌全模",
+          "机箱": "华硕彗星 EVO 海景",
+          "备注 & 升级": "赠 3 风扇，+180 换 6 棱镜风扇",
+          "img": "30d324f4325142aa81f026890a2295d8.jpeg~tplv-a9rns2rl98-image.png"
+        },
+        {
+          "Unnamed: 0": 19,
+          "序号": 14,
+          "套餐名称": "技嘉 B850 战鹰 9700X 1TB",
+          "到手价": 4299,
+          "CPU": "R7 9700X",
+          "主板": "技嘉 B850M FORCE WIFI6E (3×M.2)",
+          "散热": "酷里奥 B60S ARGB 风冷",
+          "内存": "科赋雷霆 V 16G 6000 C28 单面 A-die",
+          "固态": "致态 Ti600 1TB，可等价换西数 SN3000",
+          "独显": "无 (核显)",
+          "电源": "酷冷至尊 GX850 850W 铜牌全模组日系电容",
+          "机箱": "长城 S1mini 海景",
+          "备注 & 升级": "风扇 3 个 75/5 个 120/7 个 165",
+          "img": "00d999c26b004518a181add27033f7c0.jpeg~tplv-a9rns2rl98-image.png"
+        },
+        {
+          "Unnamed: 0": 18,
+          "序号": 15,
+          "套餐名称": "影驰 ROG 联名 9700X",
+          "到手价": 4199,
+          "CPU": "R7 9700X",
+          "主板": "华硕 B850M-AYW WIFI",
+          "散热": "锐禧 GT620 双塔风冷",
+          "内存": "异极 ROG 联名 16G 6000 C36",
+          "固态": "致态 Ti-plus7100 1TB",
+          "独显": "无 (核显)",
+          "电源": "TT BX1 850W 铜牌直出",
+          "机箱": "锐禧追影 M360 黑海景",
+          "备注 & 升级": "+99 全套改白色硬件",
+          "img": ""
+        },
+        {
+          "Unnamed: 0": 17,
+          "序号": 16,
+          "套餐名称": "华硕 TUF 9700X 24G",
+          "到手价": 4699,
+          "CPU": "R7 9700X",
+          "主板": "华硕 TUF B850M-E WIFI 重炮手",
+          "散热": "锐禧 GT620 六热管双塔，+249 升 360 水冷",
+          "内存": "宏碁银翼 24G 6000 C30 海力士",
+          "固态": "金士顿 NV3 1TB PCIE4",
+          "独显": "无 (核显)",
+          "电源": "先马 GT850 850W 金牌全模",
+          "机箱": "锐禧追影 M360 海景",
+          "备注 & 升级": "风扇 3 只 + 90 元",
+          "img": "1c138631507f48b29d6c0a0603301373.jpeg~tplv-a9rns2rl98-image.png"
+        },
+        {
+          "Unnamed: 0": 21,
+          "序号": 17,
+          "套餐名称": "影驰 5060Ti+R5 9600X",
+          "到手价": 5849,
+          "CPU": "R5 9600X",
+          "主板": "微星 B650M 爆破弹 WIFI，+199 升 GAMING PLUS",
+          "散热": "雅浚 X600A 六热管，+59 升 V3 双塔",
+          "内存": "金泰克文曲星 16G 6000 M-DIE C30",
+          "固态": "金泰克 TP3000 512G",
+          "独显": "影驰 RTX5060Ti 魔刃 OC 8G，+199 升黑金",
+          "电源": "微星 A650BNL 650W 铜牌",
+          "机箱": "影驰沐光 360M 海景",
+          "备注 & 升级": "显卡配金属支架",
+          "img": "6cf6936c7b9246bc8790c74c16823b7b.jpeg~tplv-a9rns2rl98-image.png"
+        },
+        {
+          "Unnamed: 0": 20,
+          "序号": 18,
+          "套餐名称": "影驰 5060Ti+R7 9700X",
+          "到手价": 6399,
+          "CPU": "R7 9700X",
+          "主板": "微星 B650M GAMING WIFI，+149 升 PLUS",
+          "散热": "雅浚 X600A PRO 六热管，+89 升双塔",
+          "内存": "金泰克文曲星 16G 6000 M-DIE",
+          "固态": "金泰克 TP3000 512G",
+          "独显": "影驰 RTX5060Ti 魔刃 OC 8G",
+          "电源": "微星 A650BNL 650W 铜牌",
+          "机箱": "影驰沐光 360M 海景",
+          "备注 & 升级": "2K 游戏主力机型",
+          "img": ""
+        },
+        {
+          "Unnamed: 0": 4,
+          "序号": 19,
+          "套餐名称": "微星 5060Ti+R5 9600X",
+          "到手价": 5699,
+          "CPU": "R5 9600X",
+          "主板": "微星 B650M GAMING WIFI 6+2+1 相",
+          "散热": "雅浚 X600A PRO 六热管",
+          "内存": "海盗船 16G 6000 C36",
+          "固态": "赛可驰 X7400 512G",
+          "独显": "影驰 RTX5060Ti FIRE 8G",
+          "电源": "微星 A650BNL 650W 铜牌",
+          "机箱": "微星龙夔 200L 机箱",
+          "备注 & 升级": "原厂无机箱风扇",
+          "img": "13f1a3b2bd35481f826ada657d2fa3cb.jpeg~tplv-a9rns2rl98-image.png"
+        },
+        {
+          "Unnamed: 0": 24,
+          "序号": 20,
+          "套餐名称": "微星万图师 5070 整机",
+          "到手价": 8349,
+          "CPU": "R7 9700X",
+          "主板": "微星 B650 GAMING PLUS WIFI12+2+1",
+          "散热": "酷里奥 A60 六热管双塔 ARGB",
+          "内存": "异极北极星 16G 6000 C40",
+          "固态": "梵想 S500Q 512G",
+          "独显": "微星 RTX5070 万图师 OC，免费升龙爵三扇",
+          "电源": "微星 PAG B750N-H 750W 铜牌 PCIe5",
+          "机箱": "微星 100L 大碉堡黑海景",
+          "备注 & 升级": "微星全套一线配件",
+          "img": "1.png"
+        },
+        {
+          "Unnamed: 0": 23,
+          "序号": 21,
+          "套餐名称": "盈通花嫁 5070 白色",
+          "到手价": 8499,
+          "CPU": "R7 9700X 散片",
+          "主板": "华硕 B650M-K",
+          "散热": "超频三 RT600S 白色六热管",
+          "内存": "玖合星域 16G 6000 镁光 C38，可升 32G",
+          "固态": "西数 SN3000 1TB TLC",
+          "独显": "盈通 RTX5070 樱瞳花嫁 OC 12G",
+          "电源": "威刚魔核 SG750G 750W 金牌全模白",
+          "机箱": "爱国者御风 W20 白机箱",
+          "备注 & 升级": "电源 7 年保、显卡个人送保",
+          "img": "31fc3e338af442b5b9c343d7500e181c.jpeg~tplv-a9rns2rl98-image.png"
+        },
+        {
+          "Unnamed: 0": 1,
+          "序号": 22,
+          "套餐名称": "映众曜夜 5070 黑",
+          "到手价": 8600,
+          "CPU": "R7 9700X",
+          "主板": "限时升华硕 TUF B850M-E WIFI",
+          "散热": "雅浚六热管 ARGB 风冷",
+          "内存": "威刚威龙 D300 16G 6000 C30",
+          "固态": "限时升威刚 S60Pro 500G",
+          "独显": "映众 RTX5070 曜夜 X2 12G",
+          "电源": "宏碁 AC750MAX 750W 铜牌",
+          "机箱": "华硕彗星 EVO 黑海景",
+          "备注 & 升级": "无标配风扇",
+          "img": "154d7d6184f34f5faf59709e5a7e4954.jpeg~tplv-a9rns2rl98-image.png"
+        },
+        {
+          "Unnamed: 0": 16,
+          "序号": 23,
+          "套餐名称": "华硕 B650M-R 7800X3D 无卡",
+          "到手价": 4199,
+          "CPU": "R7 7800X3D",
+          "主板": "华硕 B650M-R，+399 升 B850M-AYW WIFI",
+          "散热": "天极风双铜管，限时升泰山 K6Pro",
+          "内存": "七彩虹 16G 6000，限时升威刚 C30",
+          "固态": "华为 200E 1TB 7000M/S",
+          "独显": "无 (可自费加装 RTX5070)",
+          "电源": "威刚魔核 750W 白牌",
+          "机箱": "华硕彗星 EVO 黑海景",
+          "备注 & 升级": "预留独显位，后期升级划算",
+          "img": "30d324f4325142aa81f026890a2295d8.jpeg~tplv-a9rns2rl98-image.png"
+        }
+      ];
+
+            let currentData = [...rawData];
+            let sortCol = null;
+            let sortAsc = true;
+
+            // Initialize Charts
+            function initCharts() {
+              // CPU Chart (Pie)
+              Chart.defaults.color = "#8b949e";
+              Chart.defaults.font.family =
+                '-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif';
+
+              const cpuCounts = { "9600X": 0, "9700X": 0, "7800X3D": 0 };
+              rawData.forEach((item) => {
+                if (item["CPU"].includes("9600X")) cpuCounts["9600X"]++;
+                else if (item["CPU"].includes("9700X")) cpuCounts["9700X"]++;
+                else if (item["CPU"].includes("7800X3D")) cpuCounts["7800X3D"]++;
+              });
+
+              const cpuCtx = document.getElementById("cpuChart").getContext("2d");
+              new Chart(cpuCtx, {
+                type: "doughnut",
+                data: {
+                  labels: ["R7-9700X", "R5-9600X", "R7-7800X3D"],
+                  datasets: [
+                    {
+                      data: [
+                        cpuCounts["9700X"],
+                        cpuCounts["9600X"],
+                        cpuCounts["7800X3D"],
+                      ],
+                      backgroundColor: ["#58a6ff", "#3fb950", "#d2a8ff"],
+                      borderWidth: 0,
+                      hoverOffset: 4,
+                    },
+                  ],
+                },
+                options: {
+                  responsive: true,
+                  maintainAspectRatio: false,
+                  plugins: {
+                    legend: { position: "bottom", labels: { padding: 20 } },
+                  },
+                  cutout: "60%",
+                },
+              });
+
+              // Price Chart (Bar)
+              const priceRanges = [0, 0, 0, 0, 0];
+              rawData.forEach((item) => {
+                const p = item["到手价"];
+                if (p < 3000) priceRanges[0]++;
+                else if (p < 3500) priceRanges[1]++;
+                else if (p < 4000) priceRanges[2]++;
+                else if (p < 4500) priceRanges[3]++;
+                else priceRanges[4]++;
+              });
+
+              const priceCtx = document.getElementById("priceChart").getContext("2d");
+              new Chart(priceCtx, {
+                type: "bar",
+                data: {
+                  labels: ["<3000", "3000-3500", "3500-4000", "4000-4500", ">4500"],
+                  datasets: [
+                    {
+                      label: "配置数量",
+                      data: priceRanges,
+                      backgroundColor: "#58a6ff",
+                      borderRadius: 6,
+                      barPercentage: 0.6,
+                    },
+                  ],
+                },
+                options: {
+                  responsive: true,
+                  maintainAspectRatio: false,
+                  plugins: { legend: { display: false } },
+                  scales: {
+                    y: {
+                      beginAtZero: true,
+                      ticks: { stepSize: 1 },
+                      grid: { color: "#30363d", tickLength: 0 },
+                    },
+                    x: {
+                      grid: { display: false },
+                    },
+                  },
+                },
+              });
+            }
+
+            // Render Table
+            function renderTable(data) {
+              const tbody = document.getElementById("configTable");
+              const noData = document.getElementById("noData");
+
+              tbody.innerHTML = "";
+              if (data.length === 0) {
+                noData.classList.remove("hidden");
+                return;
+              }
+              noData.classList.add("hidden");
+
+              data.forEach((item, index) => {
+                let effectivePrice = item["到手价"];
+                if (item.addedGpu === "5060ti") effectivePrice += 2600;
+                else if (item.addedGpu === "5070") effectivePrice += 4300;
+
+                // Determine GPU color class
+                let gpuClass = "text-textSecondary";
+                let gpuIcon = "";
+                let gpuText = item["独显"];
+
+                if (item.addedGpu === "5060ti") {
+                    gpuText = "加装 5060Ti 8G";
+                    gpuClass = "text-warning font-bold";
+                    gpuIcon = '<i class="fa fa-microchip mr-1"></i>';
+                } else if (item.addedGpu === "5070") {
+                    gpuText = "加装 5070 12G";
+                    gpuClass = "text-success font-bold";
+                    gpuIcon = '<i class="fa fa-microchip mr-1"></i>';
+                } else if (item["独显"].includes("5070")) {
+                  gpuClass = "text-success font-bold";
+                  gpuIcon = '<i class="fa fa-microchip mr-1"></i>';
+                } else if (item["独显"].includes("5060")) {
+                  gpuClass = "text-warning font-bold";
+                  gpuIcon = '<i class="fa fa-microchip mr-1"></i>';
+                }
+
+                let gpuHtml = `${gpuIcon}${gpuText}`;
+                if (item["独显"].includes("无")) {
+                  gpuHtml += `
+                    <select onchange="updateGPU(${index}, this.value)" onclick="event.stopPropagation()" class="mt-1 block w-full bg-surface border border-border text-xs rounded p-1 text-textPrimary outline-none focus:border-primary">
+                      <option value="" ${!item.addedGpu ? 'selected' : ''}>不加显卡</option>
+                      <option value="5060ti" ${item.addedGpu === '5060ti' ? 'selected' : ''}>+5060Ti (¥2600)</option>
+                      <option value="5070" ${item.addedGpu === '5070' ? 'selected' : ''}>+5070 12G (¥4300)</option>
+                    </select>
+                  `;
+                }
+
+                          const tr = document.createElement("tr");
+                tr.className = "hover:bg-hover transition-colors group cursor-pointer";
+                tr.onclick = (e) => {
+                  if (e.target.closest('button') || e.target.closest('select')) return;
+                  if (item.img) openImageViewer(`img/${item.img}`);
+                };
+                tr.innerHTML = `
+                                <td class="px-4 py-3 font-mono text-textSecondary">${item["序号"]}</td>
+                                <td class="px-4 py-3 font-medium text-textPrimary">${item["套餐名称"]}</td>
+                                <td class="px-4 py-3">
+                                  <div class="font-bold text-danger">¥${effectivePrice}</div>
+                                  ${item.addedGpu ? `<div class="text-xs text-textSecondary font-medium mt-0.5 bg-surface border border-border px-1.5 py-0.5 rounded-md inline-block">无卡价: ¥${item["到手价"]}</div>` : ''}
+                                </td>
+                                <td class="px-4 py-3">${item["CPU"]}</td>
+                                <td class="px-4 py-3 text-sm">${item["主板"]}</td>
+                                <td class="px-4 py-3 text-sm">${item["散热"]}</td>
+                                <td class="px-4 py-3 text-sm">${item["内存"]}</td>
+                                <td class="px-4 py-3 text-sm">${item["固态"]}</td>
+                                <td class="px-4 py-3 ${gpuClass}">${gpuHtml}</td>
+                                <td class="px-4 py-3 text-sm">${item["电源"]}</td>
+                                <td class="px-4 py-3 text-sm">${item["机箱"]}</td>
+                                <td class="px-4 py-3 text-sm text-textSecondary">${item["备注 & 升级"] || "-"}</td>
+                                <td class="px-4 py-3 text-center whitespace-nowrap">
+                                    <button onclick="copyConfig(${index})" class="text-textSecondary hover:text-primary transition-colors p-2 rounded-md hover:bg-surface border border-transparent hover:border-border" title="复制配置">
+                                        <i class="fa fa-copy"></i>
+                                    </button>
+                                  <button ${item.img ? `onclick="openImageViewer('img/${item.img}')" class="text-textSecondary hover:text-primary transition-colors p-2 rounded-md hover:bg-surface border border-transparent hover:border-border ml-1"` : `disabled class="text-textSecondary opacity-30 cursor-not-allowed p-2 rounded-md ml-1"`} title="${item.img ? '查看配置图' : '暂无图片'}">
+                                        <i class="fa fa-image"></i>
+                                    </button>
+                                </td>
+                            `;
+                tbody.appendChild(tr);
+              });
+            }
+
+            window.updateGPU = function (index, value) {
+              currentData[index].addedGpu = value;
+              document.getElementById("bulkAddGpu").value = "";
+              renderTable(currentData);
+            };
+
+            window.bulkAddGPU = function (value) {
+              rawData.forEach(item => {
+                if (item["独显"].includes("无")) {
+                  item.addedGpu = value;
+                }
+              });
+              renderTable(currentData);
+            };
+
+            // Sorting
+            window.sortTable = function (key) {
+              if (sortCol === key) {
+                sortAsc = !sortAsc;
+              } else {
+                sortCol = key;
+                sortAsc = true;
+              }
+
+              currentData.sort((a, b) => {
+                let valA = a[key];
+                let valB = b[key];
+
+                if (key === "到手价") {
+                  let effA = valA + (a.addedGpu === "5060ti" ? 2600 : a.addedGpu === "5070" ? 4300 : 0);
+                  let effB = valB + (b.addedGpu === "5060ti" ? 2600 : b.addedGpu === "5070" ? 4300 : 0);
+                  return sortAsc ? effA - effB : effB - effA;
+                } else if (key === "序号") {
+                  return sortAsc ? valA - valB : valB - valA;
+                } else {
+                  return sortAsc
+                    ? String(valA).localeCompare(String(valB))
+                    : String(valB).localeCompare(String(valA));
+                }
+              });
+
+              // Reset sort filter select to avoid confusion
+              document.getElementById("sortFilter").value = "custom";
+              if (!document.querySelector('#sortFilter option[value="custom"]')) {
+                const opt = document.createElement("option");
+                opt.value = "custom";
+                opt.text = "自定义表头排序";
+                opt.hidden = true;
+                document.getElementById("sortFilter").appendChild(opt);
+              }
+              document.getElementById("sortFilter").value = "custom";
+
+              renderTable(currentData);
+            };
+
+            // Copy Config
+            window.copyConfig = function (index) {
+              const item = currentData[index];
+              let effectivePrice = item["到手价"];
+              let gpuText = item["独显"];
+              if (item.addedGpu === "5060ti") {
+                effectivePrice += 2600;
+                gpuText += " (加装 5060Ti 8G)";
+              } else if (item.addedGpu === "5070") {
+                effectivePrice += 4300;
+                gpuText += " (加装 5070 12G)";
+              }
+
+              const text = `【${item["套餐名称"]}】
+            到手价：¥${effectivePrice}${item.addedGpu ? ` (无卡原价: ¥${item["到手价"]})` : ''}
+            CPU：${item["CPU"]}
+            主板：${item["主板"]}
+            散热：${item["散热"]}
+            内存：${item["内存"]}
+            固态：${item["固态"]}
+            显卡：${gpuText}
+            电源：${item["电源"]}
+            机箱：${item["机箱"]}
+            备注：${item["备注 & 升级"] || "无"}`;
+
+              navigator.clipboard.writeText(text).then(() => {
+                // Show a mini toast
+                const toast = document.createElement("div");
+                toast.className =
+                  "fixed bottom-4 right-4 bg-success text-white px-4 py-2 rounded shadow-lg z-50 transform transition-all duration-300 translate-y-0 opacity-100 flex items-center";
+                toast.innerHTML =
+                  '<i class="fa fa-check-circle mr-2"></i>配置已复制！';
+                document.body.appendChild(toast);
+                setTimeout(() => {
+                  toast.classList.add("translate-y-4", "opacity-0");
+                  setTimeout(() => toast.remove(), 300);
+                }, 2000);
+              });
+            };
+
+            // Filtering
+            function applyFilters() {
+              let filtered = [...rawData];
+
+              const cpuVal = document.getElementById("cpuFilter").value;
+              if (cpuVal !== "all")
+                filtered = filtered.filter((item) => item["CPU"].includes(cpuVal));
+
+              const gpuVal = document.getElementById("gpuFilter").value;
+              if (gpuVal !== "all")
+                filtered = filtered.filter((item) => item["独显"].includes(gpuVal));
+
+              const priceVal = document.getElementById("priceFilter").value;
+              if (priceVal !== "all") {
+                filtered = filtered.filter((item) => {
+                  const p = item["到手价"];
+                  if (priceVal === "3000") return p < 3000;
+                  if (priceVal === "3000-3500") return p >= 3000 && p < 3500;
+                  if (priceVal === "3500-4000") return p >= 3500 && p < 4000;
+                  if (priceVal === "4000-4500") return p >= 4000 && p < 4500;
+                  if (priceVal === "4500") return p >= 4500;
+                  return true;
+                });
+              }
+
+              const mbVal = document.getElementById("mbFilter").value;
+              if (mbVal && mbVal !== "all")
+                filtered = filtered.filter(
+                  (item) => cleanName(item["主板"]) === mbVal,
+                );
+
+              const coolingVal = document.getElementById("coolingFilter").value;
+              if (coolingVal && coolingVal !== "all")
+                filtered = filtered.filter(
+                  (item) => cleanName(item["散热"]) === coolingVal,
+                );
+
+              const ramVal = document.getElementById("ramFilter").value;
+              if (ramVal && ramVal !== "all")
+                filtered = filtered.filter(
+                  (item) => cleanName(item["内存"]) === ramVal,
+                );
+
+              const ssdVal = document.getElementById("ssdFilter").value;
+              if (ssdVal && ssdVal !== "all")
+                filtered = filtered.filter(
+                  (item) => cleanName(item["固态"]) === ssdVal,
+                );
+
+              const psuVal = document.getElementById("psuFilter").value;
+              if (psuVal && psuVal !== "all")
+                filtered = filtered.filter(
+                  (item) => cleanName(item["电源"]) === psuVal,
+                );
+
+              const psuWattVal = document.getElementById("psuWattFilter").value;
+              if (psuWattVal && psuWattVal !== "all") {
+                filtered = filtered.filter((item) => {
+                  const p = String(item["电源"] || "");
+                  if (psuWattVal === "850w")
+                    return p.includes("850W") || p.includes("850");
+                  return p.toLowerCase().includes(psuWattVal);
+                });
+              }
+
+              const psuRatingVal = document.getElementById("psuRatingFilter").value;
+              if (psuRatingVal && psuRatingVal !== "all") {
+                filtered = filtered.filter((item) =>
+                  String(item["电源"] || "").includes(psuRatingVal),
+                );
+              }
+
+              const caseVal = document.getElementById("caseFilter").value;
+              if (caseVal && caseVal !== "all")
+                filtered = filtered.filter(
+                  (item) => cleanName(item["机箱"]) === caseVal,
+                );
+
+              const sortVal = document.getElementById("sortFilter").value;
+              if (sortVal === "id-asc") {
+                filtered.sort((a, b) => a["序号"] - b["序号"]);
+                sortCol = null;
+              } else if (sortVal === "price-asc") {
+                filtered.sort((a, b) => a["到手价"] - b["到手价"]);
+                sortCol = "到手价";
+                sortAsc = true;
+              } else if (sortVal === "price-desc") {
+                filtered.sort((a, b) => b["到手价"] - a["到手价"]);
+                sortCol = "到手价";
+                sortAsc = false;
+              }
+
+              currentData = filtered;
+              renderTable(currentData);
+            }
+
+            // Initialize Gallery
+            function initGallery() {
+              const imageFiles = [
+                "1.png",
+                "00d999c26b004518a181add27033f7c0.jpeg~tplv-a9rns2rl98-image.png",
+                "02376e83bb494cf0b4d4a46d25c01296.jpeg~tplv-a9rns2rl98-image.png",
+                "06be2878e5bc44dda2acf56a76b1a71d.jpeg~tplv-a9rns2rl98-image.png",
+                "11ec290bf2174e0f9ed5f31acb778e99.jpeg~tplv-a9rns2rl98-image.png",
+                "13f1a3b2bd35481f826ada657d2fa3cb.jpeg~tplv-a9rns2rl98-image.png",
+                "154d7d6184f34f5faf59709e5a7e4954.jpeg~tplv-a9rns2rl98-image.png",
+                "1c138631507f48b29d6c0a0603301373.jpeg~tplv-a9rns2rl98-image.png",
+                "30d324f4325142aa81f026890a2295d8.jpeg~tplv-a9rns2rl98-image.png",
+                "31fc3e338af442b5b9c343d7500e181c.jpeg~tplv-a9rns2rl98-image.png",
+                "6cf6936c7b9246bc8790c74c16823b7b.jpeg~tplv-a9rns2rl98-image.png",
+                "6d8d37b4b86a4a20bf275bea69d75ab6.jpeg~tplv-a9rns2rl98-image.png",
+                "8a00f0cc91b245e18f68210e19687d82.jpeg~tplv-a9rns2rl98-image.png",
+                "916b80958af541b49c98162bd76a8065.jpeg~tplv-a9rns2rl98-image.png",
+                "944753d35b484cc3b5906a0dc83fce08.jpeg~tplv-a9rns2rl98-image.png",
+                "a5d14be359684b7493bad3f784ef1d82.jpeg~tplv-a9rns2rl98-image.png",
+                "ae498e324c86427c9e2854e93731958a.jpeg~tplv-a9rns2rl98-image.png",
+                "aeb5045f5414479f83f198b5bf7285da.jpeg~tplv-a9rns2rl98-image.png",
+                "b12f5c7d745043129eb72f48d0fab9bf.jpeg~tplv-a9rns2rl98-image.png",
+                "b824e1af37c34f1f8d6b7a436e8d4176.jpeg~tplv-a9rns2rl98-image.png",
+                "be393d9ece514b768184d08d0cfa6fcf.jpeg~tplv-a9rns2rl98-image.png",
+                "c7ee9102363b4bd98500a86fbde18bb3.jpeg~tplv-a9rns2rl98-image.png",
+                "f84e99f980b045adb54d0db2d0f37c56.jpeg~tplv-a9rns2rl98-image.png",
+                "fcf3900b5e054a47b27e5a934fd2aaf1.jpeg~tplv-a9rns2rl98-image.png",
+              ];
+
+              const gallery = document.getElementById("imageGallery");
+              imageFiles.forEach((file) => {
+                const div = document.createElement("div");
+                div.className =
+                  "aspect-square rounded-lg overflow-hidden border border-border cursor-pointer hover-lift group relative bg-bg";
+                div.innerHTML = `
+                  <img src="img/${file}" alt="配置展示" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" loading="lazy">
+                  <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                    <i class="fa fa-search-plus text-2xl text-white"></i>
+                  </div>
+                `;
+                div.onclick = () => openImageViewer(`img/${file}`);
+                gallery.appendChild(div);
+              });
+            }
+
+            function openImageViewer(src) {
+              const viewer = document.createElement("div");
+              viewer.className =
+                "fixed inset-0 z-[100] bg-black/90 flex items-center justify-center cursor-zoom-out p-4 opacity-0 transition-opacity duration-300";
+              viewer.innerHTML = `<img src="${src}" class="max-w-full max-h-full object-contain rounded-lg shadow-2xl scale-95 transition-transform duration-300">`;
+
+              viewer.onclick = () => {
+                viewer.classList.remove("opacity-100");
+                viewer.querySelector("img").classList.remove("scale-100");
+                setTimeout(() => viewer.remove(), 300);
+              };
+
+              document.body.appendChild(viewer);
+
+              requestAnimationFrame(() => {
+                viewer.classList.add("opacity-100");
+                viewer.querySelector("img").classList.add("scale-100");
+                viewer.querySelector("img").classList.remove("scale-95");
+              });
+            }
+
+            document.addEventListener("DOMContentLoaded", () => {
+              initCharts();
+              renderTable(currentData);
+              initGallery();
+
+              // Enable SortableJS on table body
+              Sortable.create(document.getElementById("configTable"), {
+                animation: 150,
+                ghostClass: "bg-hover",
+                handle: "tr",
+              });
+
+              // Cleanup function to normalize names
+              function cleanName(val) {
+                if (!val) return "";
+                let s = String(val).split("，")[0].split(",")[0].trim();
+                s = s.replace(/\s*\(.*?\)\s*/g, "").replace(/\s*（.*?）\s*/g, "");
+                s = s.replace(
+                  /\s*(WIFI\s*12\+2\+1|WIFI\s*6\+2\+1|12\+2\+1\s*相?|6\+2\+1\s*相?|TLC|A-die|单面|C\d{2}|海力士|镁光|六管双塔|双塔六热管|六热管双塔|双塔风冷|六热管|ARGB\s*风冷|WIFI\d*[a-zA-Z]*)/gi,
+                  "",
+                );
+                return s.replace(/\s+/g, " ").trim();
+              }
+
+              // Populate specific model dropdowns dynamically
+              const filterColumns = [
+                { key: "主板", id: "mbFilter" },
+                { key: "散热", id: "coolingFilter" },
+                { key: "内存", id: "ramFilter" },
+                { key: "固态", id: "ssdFilter" },
+                { key: "电源", id: "psuFilter" },
+                { key: "机箱", id: "caseFilter" },
+              ];
+              filterColumns.forEach(({ key, id }) => {
+                const select = document.getElementById(id);
+                const uniqueValues = [
+                  ...new Set(rawData.map((item) => cleanName(item[key]))),
+                ]
+                  .filter(Boolean)
+                  .sort();
+                uniqueValues.forEach((val) => {
+                  const opt = document.createElement("option");
+                  opt.value = val;
+                  opt.text = val;
+                  select.appendChild(opt);
+                });
+              });
+
+              // Bind filters
+              [
+                "cpuFilter",
+                "gpuFilter",
+                "priceFilter",
+                "sortFilter",
+                "mbFilter",
+                "coolingFilter",
+                "ramFilter",
+                "ssdFilter",
+                "psuFilter",
+                "psuWattFilter",
+                "psuRatingFilter",
+                "caseFilter",
+              ].forEach((id) => {
+                document.getElementById(id).addEventListener("change", applyFilters);
+              });
+            });
+    </script>
+  </body>
+</html>

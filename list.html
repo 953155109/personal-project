@@ -1,0 +1,1706 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>万科城市花园105㎡户型装修方案</title>
+    <style>
+      :root {
+        --primary: #8b7355;
+        --primary-light: #f5f1eb;
+        --primary-dark: #6b583f;
+        --text-main: #333333;
+        --text-light: #666666;
+        --border: #e0d9cf;
+        --bg-color: #faf8f5;
+        --white: #ffffff;
+      }
+
+      body {
+        font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-main);
+        margin: 0;
+        padding: 40px 20px;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        background: var(--white);
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(139, 115, 85, 0.08);
+        overflow: hidden;
+      }
+
+      .header {
+        text-align: center;
+        padding: 40px 20px 30px;
+        background-color: var(--white);
+      }
+
+      .header h1 {
+        font-size: 32px;
+        color: var(--primary);
+        margin-bottom: 10px;
+        letter-spacing: 2px;
+      }
+
+      .header p {
+        color: var(--text-light);
+        font-size: 16px;
+      }
+
+      .nav-tabs {
+        display: flex;
+        background: var(--bg-color);
+        border-bottom: 1px solid var(--border);
+        border-top: 1px solid var(--border);
+      }
+
+      .nav-tab {
+        flex: 1;
+        padding: 16px 20px;
+        text-align: center;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: 500;
+        color: var(--text-light);
+        transition: all 0.3s ease;
+      }
+
+      .nav-tab.active {
+        background: var(--white);
+        color: var(--primary);
+        border-bottom: 3px solid var(--primary);
+      }
+
+      .nav-tab:hover {
+        background: var(--primary-light);
+        color: var(--primary);
+      }
+
+      .content-section {
+        padding: 40px;
+        display: none;
+      }
+
+      .content-section.active {
+        display: block;
+      }
+
+      .section-title {
+        color: var(--primary);
+        border-bottom: 2px solid var(--primary-light);
+        padding-bottom: 15px;
+        margin-top: 0;
+        margin-bottom: 25px;
+        font-size: 22px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .summary-cards {
+        display: flex;
+        gap: 20px;
+        margin-bottom: 40px;
+        flex-wrap: wrap;
+      }
+
+      .card {
+        flex: 1;
+        min-width: 200px;
+        background: var(--white);
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(139, 115, 85, 0.08);
+        text-align: center;
+        border-top: 4px solid var(--primary);
+      }
+
+      .card h3 {
+        margin: 0 0 10px 0;
+        font-size: 16px;
+        color: var(--text-light);
+        font-weight: normal;
+      }
+
+      .card .amount {
+        font-size: 28px;
+        font-weight: bold;
+        color: var(--primary);
+      }
+
+      .category-group {
+        margin-bottom: 30px;
+        background: var(--white);
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+      }
+
+      .category-title {
+        font-size: 18px;
+        font-weight: bold;
+        background: var(--primary-light);
+        padding: 15px 20px;
+        margin: 0;
+        color: var(--primary-dark);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .title-actions {
+        display: flex;
+        align-items: center;
+      }
+
+      .export-btn {
+        background: var(--primary);
+        color: var(--white);
+        border: none;
+        padding: 6px 16px;
+        border-radius: 4px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: background 0.3s;
+        margin-left: 10px;
+      }
+
+      .export-btn:hover {
+        background: var(--primary-dark);
+      }
+
+      .table-container {
+        overflow-x: auto;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      table thead tr {
+        background: var(--primary-light);
+      }
+
+      table th,
+      table td {
+        padding: 12px 15px;
+        text-align: left;
+        border-bottom: 1px dashed var(--border);
+        font-size: 15px;
+      }
+
+      table th {
+        color: var(--primary-dark);
+        font-weight: bold;
+        font-size: 14px;
+        border-bottom: 1px solid var(--border);
+      }
+
+      table tbody tr:nth-child(even) {
+        background: #fafafa;
+      }
+
+      table tbody tr:hover {
+        background: var(--primary-light);
+      }
+
+      .price-col {
+        text-align: right;
+      }
+
+      .price {
+        font-weight: bold;
+        color: var(--text-main);
+      }
+
+      .center-col {
+        text-align: center;
+      }
+
+      .highlight-list {
+        font-size: 15px;
+        line-height: 2;
+        color: var(--text-light);
+        margin-left: 20px;
+      }
+
+      .highlight-list li {
+        margin-bottom: 8px;
+      }
+
+      .highlight-list strong {
+        color: var(--primary-dark);
+      }
+
+      .floor-plan {
+        max-width: 100%;
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        margin-bottom: 30px;
+      }
+
+      .axis-note {
+        background: var(--primary-light);
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 30px;
+        border-left: 4px solid var(--primary);
+      }
+
+      .axis-note h3 {
+        font-size: 18px;
+        color: var(--primary-dark);
+        margin-top: 0;
+        margin-bottom: 15px;
+      }
+
+      .axis-note p {
+        font-size: 15px;
+        color: var(--text-main);
+        line-height: 1.8;
+      }
+
+      @media (max-width: 768px) {
+        .summary-cards {
+          flex-direction: column;
+        }
+        .content-section {
+          padding: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>万科城市花园105㎡户型装修方案</h1>
+        <p>原木风设计 | 基于户型图、报价单及家电软装预估清单综合整理</p>
+      </div>
+
+      <div class="nav-tabs">
+        <div class="nav-tab active" data-tab="overview">概算总览</div>
+        <div class="nav-tab" data-tab="hardware">硬装清单明细</div>
+        <div class="nav-tab" data-tab="soft">软装与家电明细</div>
+        <div class="nav-tab" data-tab="floorplan">户型优化方案</div>
+      </div>
+
+      <!-- 总览部分 -->
+      <div class="content-section active" id="overview">
+        <h2 class="section-title">
+          装修总预算预估
+          <button
+            class="export-btn"
+            onclick="
+              exportMultipleTables(
+                ['hard-table'],
+                Array.from({ length: 9 }).map(
+                  (_, i) => 'soft-table-' + (i + 1),
+                ),
+                '全部预算清单',
+              )
+            "
+          >
+            导出全部清单
+          </button>
+        </h2>
+        <div class="summary-cards">
+          <div class="card">
+            <h3>总预算预估 (硬装+软装电器)</h3>
+            <div class="amount">¥ 192,896.88</div>
+          </div>
+          <div class="card">
+            <h3>硬装部分合计</h3>
+            <div class="amount">¥ 102,377.00</div>
+          </div>
+          <div class="card">
+            <h3>软装及家电合计</h3>
+            <div class="amount">¥ 90,519.88</div>
+          </div>
+          <div class="card">
+            <h3>硬装占比</h3>
+            <div class="amount">53.07%</div>
+          </div>
+        </div>
+
+        <h2 class="section-title">方案核心亮点</h2>
+        <ul class="highlight-list">
+          <li>严格基于原户型结构优化，不拆承重墙，安全合规。</li>
+          <li>
+            原木风统一设计，浅橡木+奶白色为主，柔和通透，适配户型南北采光优势。
+          </li>
+          <li>
+            解决原户型痛点：无玄关隐私差、过道浪费、厨房采光弱、次卧噪音干扰。
+          </li>
+          <li>全屋定制收纳系统，最大化利用空间，解决老小区收纳不足问题。</li>
+          <li>预算清晰可控，硬装+软装完整覆盖，无隐形消费。</li>
+        </ul>
+      </div>
+
+      <!-- 硬装清单部分 -->
+      <div class="content-section" id="hardware">
+        <h2 class="section-title">
+          <span
+            >硬装预算清单
+            <span
+              style="
+                font-size: 15px;
+                color: var(--text-main);
+                font-weight: normal;
+                margin-left: 10px;
+              "
+              >总计：¥ 102,377.00</span
+            ></span
+          >
+          <button
+            class="export-btn"
+            onclick="exportTable('hard-table', '硬装清单')"
+          >
+            导出硬装清单
+          </button>
+        </h2>
+        <div class="table-container">
+          <table id="hard-table">
+            <thead>
+              <tr>
+                <th class="center-col">序号</th>
+                <th>位置</th>
+                <th>项目名称</th>
+                <th>规格/品牌</th>
+                <th class="center-col">单位</th>
+                <th class="center-col">数量</th>
+                <th class="price-col">单价(元)</th>
+                <th class="price-col">总价(元)</th>
+                <th>备注</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="center-col">1</td>
+                <td>厨房</td>
+                <td>三折推拉门</td>
+                <td>钛镁合金，超白长虹玻璃</td>
+                <td class="center-col">樘</td>
+                <td class="center-col">1</td>
+                <td class="price-col">¥ 3,000.00</td>
+                <td class="price-col price">¥ 3,000.00</td>
+                <td>含安装</td>
+              </tr>
+              <tr>
+                <td class="center-col">2</td>
+                <td>厨房</td>
+                <td>厨房门瓷砖通铺</td>
+                <td>浅灰哑光防滑砖</td>
+                <td class="center-col">㎡</td>
+                <td class="center-col">6</td>
+                <td class="price-col">¥ 250.00</td>
+                <td class="price-col price">¥ 1,500.00</td>
+                <td>含人工、辅料</td>
+              </tr>
+              <tr>
+                <td class="center-col">3</td>
+                <td>厨房</td>
+                <td>整体橱柜定制</td>
+                <td>浅橡木多层板，石英石台面</td>
+                <td class="center-col">延米</td>
+                <td class="center-col">3.6</td>
+                <td class="price-col">¥ 1,200.00</td>
+                <td class="price-col price">¥ 4,320.00</td>
+                <td>含五金、安装</td>
+              </tr>
+              <tr>
+                <td class="center-col">4</td>
+                <td>厨房</td>
+                <td>水电改造</td>
+                <td>国标电线、水管</td>
+                <td class="center-col">项</td>
+                <td class="center-col">1</td>
+                <td class="price-col">¥ 2,500.00</td>
+                <td class="price-col price">¥ 2,500.00</td>
+                <td>含人工、材料</td>
+              </tr>
+              <tr>
+                <td class="center-col">5</td>
+                <td>厨房</td>
+                <td>防水工程</td>
+                <td>柔性防水，两遍涂刷</td>
+                <td class="center-col">㎡</td>
+                <td class="center-col">6</td>
+                <td class="price-col">¥ 150.00</td>
+                <td class="price-col price">¥ 900.00</td>
+                <td>闭水试验48小时</td>
+              </tr>
+              <tr>
+                <td class="center-col">6</td>
+                <td>厨房</td>
+                <td>集成吊顶</td>
+                <td>铝扣板，300*600mm</td>
+                <td class="center-col">㎡</td>
+                <td class="center-col">6</td>
+                <td class="price-col">¥ 120.00</td>
+                <td class="price-col price">¥ 720.00</td>
+                <td>含灯具、安装</td>
+              </tr>
+              <tr>
+                <td class="center-col">7</td>
+                <td>南向大阳台</td>
+                <td>阳台铝柜定制</td>
+                <td>浅橡木多层板</td>
+                <td class="center-col">延米</td>
+                <td class="center-col">2.4</td>
+                <td class="price-col">¥ 1,750.00</td>
+                <td class="price-col price">¥ 4,200.00</td>
+                <td>含洗衣机位、安装</td>
+              </tr>
+              <tr>
+                <td class="center-col">8</td>
+                <td>南向大阳台</td>
+                <td>阳台推拉门</td>
+                <td>断桥铝双层中空玻璃</td>
+                <td class="center-col">樘</td>
+                <td class="center-col">1</td>
+                <td class="price-col">¥ 2,300.00</td>
+                <td class="price-col price">¥ 2,300.00</td>
+                <td>含安装、五金</td>
+              </tr>
+              <tr>
+                <td class="center-col">9</td>
+                <td>南向大阳台</td>
+                <td>瓷砖铺贴</td>
+                <td>浅灰哑光防滑砖</td>
+                <td class="center-col">㎡</td>
+                <td class="center-col">5.3</td>
+                <td class="price-col">¥ 200.00</td>
+                <td class="price-col price">¥ 1,060.00</td>
+                <td>含人工、辅料</td>
+              </tr>
+              <tr>
+                <td class="center-col">10</td>
+                <td>南向大阳台</td>
+                <td>防水工程</td>
+                <td>柔性防水，两遍涂刷</td>
+                <td class="center-col">㎡</td>
+                <td class="center-col">5.3</td>
+                <td class="price-col">¥ 150.00</td>
+                <td class="price-col price">¥ 795.00</td>
+                <td>闭水试验48小时</td>
+              </tr>
+              <tr>
+                <td class="center-col">11</td>
+                <td>南向大阳台</td>
+                <td>集成吊顶</td>
+                <td>铝扣板，300*600mm</td>
+                <td class="center-col">㎡</td>
+                <td class="center-col">5.3</td>
+                <td class="price-col">¥ 120.00</td>
+                <td class="price-col price">¥ 636.00</td>
+                <td>含灯具、安装</td>
+              </tr>
+              <tr>
+                <td class="center-col">12</td>
+                <td>北向小阳台</td>
+                <td>阳台改造</td>
+                <td>瓷砖铺贴、防水</td>
+                <td class="center-col">项</td>
+                <td class="center-col">1</td>
+                <td class="price-col">¥ 3,500.00</td>
+                <td class="price-col price">¥ 3,500.00</td>
+                <td>含人工、材料</td>
+              </tr>
+              <tr>
+                <td class="center-col">13</td>
+                <td>卫生间A（主卧）</td>
+                <td>卫生间整体改造</td>
+                <td>含拆改、水电、防水</td>
+                <td class="center-col">项</td>
+                <td class="center-col">1</td>
+                <td class="price-col">¥ 8,600.00</td>
+                <td class="price-col price">¥ 8,600.00</td>
+                <td>含人工、辅料</td>
+              </tr>
+              <tr>
+                <td class="center-col">14</td>
+                <td>卫生间B（公卫）</td>
+                <td>卫生间整体改造</td>
+                <td>含拆改、水电、防水</td>
+                <td class="center-col">项</td>
+                <td class="center-col">1</td>
+                <td class="price-col">¥ 8,600.00</td>
+                <td class="price-col price">¥ 8,600.00</td>
+                <td>含人工、辅料</td>
+              </tr>
+              <tr>
+                <td class="center-col">15</td>
+                <td>两个卫生间</td>
+                <td>瓷砖铺贴</td>
+                <td>浅灰哑光防滑砖</td>
+                <td class="center-col">㎡</td>
+                <td class="center-col">12</td>
+                <td class="price-col">¥ 250.00</td>
+                <td class="price-col price">¥ 3,000.00</td>
+                <td>含人工、辅料</td>
+              </tr>
+              <tr>
+                <td class="center-col">16</td>
+                <td>两个卫生间</td>
+                <td>集成吊顶</td>
+                <td>铝扣板，300*600mm</td>
+                <td class="center-col">㎡</td>
+                <td class="center-col">12</td>
+                <td class="price-col">¥ 120.00</td>
+                <td class="price-col price">¥ 1,440.00</td>
+                <td>含灯具、安装</td>
+              </tr>
+              <tr>
+                <td class="center-col">17</td>
+                <td>两个卫生间</td>
+                <td>卫生间门</td>
+                <td>钛镁合金平开门</td>
+                <td class="center-col">樘</td>
+                <td class="center-col">2</td>
+                <td class="price-col">¥ 1,200.00</td>
+                <td class="price-col price">¥ 2,400.00</td>
+                <td>含安装、五金</td>
+              </tr>
+              <tr>
+                <td class="center-col">18</td>
+                <td>三个卧室</td>
+                <td>地板改木纹砖</td>
+                <td>浅橡木木纹砖</td>
+                <td class="center-col">㎡</td>
+                <td class="center-col">38.2</td>
+                <td class="price-col">¥ 180.00</td>
+                <td class="price-col price">¥ 6,876.00</td>
+                <td>含人工、辅料</td>
+              </tr>
+              <tr>
+                <td class="center-col">19</td>
+                <td>三个卧室</td>
+                <td>定制衣柜</td>
+                <td>浅橡木多层板，通顶</td>
+                <td class="center-col">㎡</td>
+                <td class="center-col">15</td>
+                <td class="price-col">¥ 1,200.00</td>
+                <td class="price-col price">¥ 18,000.00</td>
+                <td>含五金、安装</td>
+              </tr>
+              <tr>
+                <td class="center-col">20</td>
+                <td>三个卧室</td>
+                <td>卧室门</td>
+                <td>实木复合门，浅橡木色</td>
+                <td class="center-col">樘</td>
+                <td class="center-col">3</td>
+                <td class="price-col">¥ 1,500.00</td>
+                <td class="price-col price">¥ 4,500.00</td>
+                <td>含安装、五金</td>
+              </tr>
+              <tr>
+                <td class="center-col">21</td>
+                <td>三个卧室</td>
+                <td>卧室吊顶</td>
+                <td>双眼皮吊顶，石膏板</td>
+                <td class="center-col">项</td>
+                <td class="center-col">3</td>
+                <td class="price-col">¥ 1,200.00</td>
+                <td class="price-col price">¥ 3,600.00</td>
+                <td>含人工、材料</td>
+              </tr>
+              <tr>
+                <td class="center-col">22</td>
+                <td>全屋</td>
+                <td>踢脚线</td>
+                <td>浅橡木实木踢脚线</td>
+                <td class="center-col">m</td>
+                <td class="center-col">50</td>
+                <td class="price-col">¥ 38.00</td>
+                <td class="price-col price">¥ 1,900.00</td>
+                <td>含安装</td>
+              </tr>
+              <tr>
+                <td class="center-col">23</td>
+                <td>全屋</td>
+                <td>墙面乳胶漆</td>
+                <td>立邦奶白色，两遍面漆</td>
+                <td class="center-col">㎡</td>
+                <td class="center-col">120</td>
+                <td class="price-col">¥ 35.00</td>
+                <td class="price-col price">¥ 4,200.00</td>
+                <td>含人工、材料</td>
+              </tr>
+              <tr>
+                <td class="center-col">24</td>
+                <td>全屋</td>
+                <td>客餐厅吊顶</td>
+                <td>双眼皮吊顶，石膏板</td>
+                <td class="center-col">项</td>
+                <td class="center-col">1</td>
+                <td class="price-col">¥ 4,500.00</td>
+                <td class="price-col price">¥ 4,500.00</td>
+                <td>含人工、材料</td>
+              </tr>
+              <tr>
+                <td class="center-col">25</td>
+                <td>全屋</td>
+                <td>开荒保洁</td>
+                <td>全屋深度清洁</td>
+                <td class="center-col">项</td>
+                <td class="center-col">1</td>
+                <td class="price-col">¥ 1,330.00</td>
+                <td class="price-col price">¥ 1,330.00</td>
+                <td>含玻璃、地面清洁</td>
+              </tr>
+              <tr>
+                <td class="center-col">26</td>
+                <td>全屋</td>
+                <td>材料运输及上楼费</td>
+                <td></td>
+                <td class="center-col">项</td>
+                <td class="center-col">1</td>
+                <td class="price-col">¥ 3,000.00</td>
+                <td class="price-col price">¥ 3,000.00</td>
+                <td>含所有材料运输</td>
+              </tr>
+              <tr>
+                <td class="center-col">27</td>
+                <td>全屋</td>
+                <td>装修管理费及税费</td>
+                <td></td>
+                <td class="center-col">项</td>
+                <td class="center-col">1</td>
+                <td class="price-col">¥ 5,000.00</td>
+                <td class="price-col price">¥ 5,000.00</td>
+                <td>含施工管理、税点</td>
+              </tr>
+
+              <tr style="background: var(--primary-light); font-weight: bold">
+                <td
+                  colspan="7"
+                  class="price-col"
+                  style="color: var(--primary-dark)"
+                >
+                  硬装总计：
+                </td>
+                <td
+                  class="price-col"
+                  style="color: var(--primary); font-size: 18px"
+                >
+                  ¥ 102,377.00
+                </td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 软装清单部分 -->
+      <div class="content-section" id="soft">
+        <h2 class="section-title" style="border: none">
+          <span
+            >软装与家电清单
+            <span
+              style="
+                font-size: 15px;
+                color: var(--text-main);
+                font-weight: normal;
+                margin-left: 10px;
+              "
+              >总计：¥ 90,519.88</span
+            ></span
+          >
+          <button
+            class="export-btn"
+            onclick="
+              exportMultipleTables(
+                [],
+                Array.from({ length: 9 }).map(
+                  (_, i) => 'soft-table-' + (i + 1),
+                ),
+                '软装清单合集',
+              )
+            "
+          >
+            导出所有软装清单
+          </button>
+        </h2>
+
+        <div class="category-group">
+          <h3 class="category-title">
+            <span>厨房</span>
+            <div class="title-actions">
+              <span
+                style="
+                  color: var(--text-main);
+                  font-weight: normal;
+                  margin-right: 15px;
+                "
+                >小计：¥ 16,756.88</span
+              >
+              <button
+                class="export-btn"
+                onclick="exportTable('soft-table-1', '厨房软装清单')"
+              >
+                导出表格
+              </button>
+            </div>
+          </h3>
+          <div class="table-container" style="border: none; border-radius: 0">
+            <table id="soft-table-1">
+              <thead>
+                <tr>
+                  <th class="center-col">序号</th>
+                  <th>位置</th>
+                  <th>产品名称</th>
+                  <th>品牌/规格</th>
+                  <th class="center-col">单位</th>
+                  <th class="center-col">数量</th>
+                  <th class="price-col">单价(元)</th>
+                  <th class="price-col">总价(元)</th>
+                  <th>备注</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="center-col">1</td>
+                  <td>厨房</td>
+                  <td>法式冰箱</td>
+                  <td>容声503 pro 600mm</td>
+                  <td class="center-col">台</td>
+                  <td class="center-col">1</td>
+                  <td class="price-col">¥ 3,484.88</td>
+                  <td class="price-col price">¥ 3,484.88</td>
+                  <td>京东采购</td>
+                </tr>
+                <tr>
+                  <td class="center-col">2</td>
+                  <td>厨房</td>
+                  <td>洗碗机</td>
+                  <td>美的13套嵌入式</td>
+                  <td class="center-col">台</td>
+                  <td class="center-col">1</td>
+                  <td class="price-col">¥ 4,000.00</td>
+                  <td class="price-col price">¥ 4,000.00</td>
+                  <td>京东采购，含安装</td>
+                </tr>
+                <tr>
+                  <td class="center-col">3</td>
+                  <td>厨房</td>
+                  <td>微蒸烤箱</td>
+                  <td>苏泊尔</td>
+                  <td class="center-col">台</td>
+                  <td class="center-col">1</td>
+                  <td class="price-col">¥ 1,500.00</td>
+                  <td class="price-col price">¥ 1,500.00</td>
+                  <td>京东采购</td>
+                </tr>
+                <tr>
+                  <td class="center-col">4</td>
+                  <td>厨房</td>
+                  <td>燃气热水器</td>
+                  <td>海尔KL3 pro</td>
+                  <td class="center-col">台</td>
+                  <td class="center-col">1</td>
+                  <td class="price-col">¥ 1,272.00</td>
+                  <td class="price-col price">¥ 1,272.00</td>
+                  <td>京东采购</td>
+                </tr>
+                <tr>
+                  <td class="center-col">5</td>
+                  <td>厨房</td>
+                  <td>厨房小电器套装</td>
+                  <td>电饭煲、破壁机、空气炸锅</td>
+                  <td class="center-col">套</td>
+                  <td class="center-col">1</td>
+                  <td class="price-col">¥ 2,000.00</td>
+                  <td class="price-col price">¥ 2,000.00</td>
+                  <td>含锅碗瓢盆</td>
+                </tr>
+                <tr>
+                  <td class="center-col">-</td>
+                  <td>厨房</td>
+                  <td>抽油烟机</td>
+                  <td>预估</td>
+                  <td class="center-col">台</td>
+                  <td class="center-col">1</td>
+                  <td class="price-col">¥ 3,000.00</td>
+                  <td class="price-col price">¥ 3,000.00</td>
+                  <td>新增</td>
+                </tr>
+                <tr>
+                  <td class="center-col">-</td>
+                  <td>厨房</td>
+                  <td>煤气灶</td>
+                  <td>预估</td>
+                  <td class="center-col">台</td>
+                  <td class="center-col">1</td>
+                  <td class="price-col">¥ 1,500.00</td>
+                  <td class="price-col price">¥ 1,500.00</td>
+                  <td>新增</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="category-group">
+          <h3 class="category-title">
+            <span>餐厅</span>
+            <div class="title-actions">
+              <span
+                style="
+                  color: var(--text-main);
+                  font-weight: normal;
+                  margin-right: 15px;
+                "
+                >小计：¥ 6,575.00</span
+              >
+              <button
+                class="export-btn"
+                onclick="exportTable('soft-table-2', '餐厅软装清单')"
+              >
+                导出表格
+              </button>
+            </div>
+          </h3>
+          <div class="table-container" style="border: none; border-radius: 0">
+            <table id="soft-table-2">
+              <thead>
+                <tr>
+                  <th class="center-col">序号</th>
+                  <th>位置</th>
+                  <th>产品名称</th>
+                  <th>品牌/规格</th>
+                  <th class="center-col">单位</th>
+                  <th class="center-col">数量</th>
+                  <th class="price-col">单价(元)</th>
+                  <th class="price-col">总价(元)</th>
+                  <th>备注</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="center-col">6</td>
+                  <td>餐厅</td>
+                  <td>可伸缩岛台</td>
+                  <td>奶油风现代简约</td>
+                  <td class="center-col">个</td>
+                  <td class="center-col">1</td>
+                  <td class="price-col">¥ 1,079.00</td>
+                  <td class="price-col price">¥ 1,079.00</td>
+                  <td>淘宝采购</td>
+                </tr>
+                <tr>
+                  <td class="center-col">7</td>
+                  <td>餐厅</td>
+                  <td>岩板圆餐桌</td>
+                  <td>1.35米奶油风</td>
+                  <td class="center-col">张</td>
+                  <td class="center-col">1</td>
+                  <td class="price-col">¥ 1,396.00</td>
+                  <td class="price-col price">¥ 1,396.00</td>
+                  <td>淘宝采购</td>
+                </tr>
+                <tr>
+                  <td class="center-col">8</td>
+                  <td>餐厅</td>
+                  <td>实木餐椅</td>
+                  <td>浅橡木色，藤编靠背</td>
+                  <td class="center-col">把</td>
+                  <td class="center-col">4</td>
+                  <td class="price-col">¥ 350.00</td>
+                  <td class="price-col price">¥ 1,400.00</td>
+                  <td>淘宝采购</td>
+                </tr>
+                <tr>
+                  <td class="center-col">9</td>
+                  <td>餐厅</td>
+                  <td>餐厅吊灯</td>
+                  <td>4灯奶油风吊灯</td>
+                  <td class="center-col">个</td>
+                  <td class="center-col">1</td>
+                  <td class="price-col">¥ 200.00</td>
+                  <td class="price-col price">¥ 200.00</td>
+                  <td>淘宝采购</td>
+                </tr>
+                <tr>
+                  <td class="center-col">10</td>
+                  <td>餐厅</td>
+                  <td>餐边柜</td>
+                  <td>浅橡木色，通顶</td>
+                  <td class="center-col">个</td>
+                  <td class="center-col">1</td>
+                  <td class="price-col">¥ 2,500.00</td>
+                  <td class="price-col price">¥ 2,500.00</td>
+                  <td>定制</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="category-group">
+          <h3 class="category-title">
+            <span>客厅</span>
+            <div class="title-actions">
+              <span
+                style="
+                  color: var(--text-main);
+                  font-weight: normal;
+                  margin-right: 15px;
+                "
+                >小计：¥ 16,588.00</span
+              >
+              <button
+                class="export-btn"
+                onclick="exportTable('soft-table-3', '客厅软装清单')"
+              >
+                导出表格
+              </button>
+            </div>
+          </h3>
+          <div class="table-container" style="border: none; border-radius: 0">
+            <table id="soft-table-3">
+              <thead>
+                <tr>
+                  <th class="center-col">序号</th>
+                  <th>位置</th>
+                  <th>产品名称</th>
+                  <th>品牌/规格</th>
+                  <th class="center-col">单位</th>
+                  <th class="center-col">数量</th>
+                  <th class="price-col">单价(元)</th>
+                  <th class="price-col">总价(元)</th>
+                  <th>备注</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="center-col">11</td>
+                  <td>客厅</td>
+                  <td>75寸智能电视</td>
+                  <td>小米 s75 mini</td>
+                  <td class="center-col">台</td>
+                  <td class="center-col">1</td>
+                  <td class="price-col">¥ 3,803.00</td>
+                  <td class="price-col price">¥ 3,803.00</td>
+                  <td>京东采购，含伸缩支架</td>
+                </tr>
+                <tr>
+                  <td class="center-col">12</td>
+                  <td>客厅</td>
+                  <td>棉麻布艺沙发</td>
+                  <td>浅卡其色，三人位+贵妃榻</td>
+                  <td class="center-col">套</td>
+                  <td class="center-col">1</td>
+                  <td class="price-col">¥ 2,385.00</td>
+                  <td class="price-col price">¥ 2,385.00</td>
+                  <td>淘宝采购</td>
+                </tr>
+                <tr>
+                  <td class="center-col">13</td>
+                  <td>客厅</td>
+                  <td>实木圆形茶几</td>
+                  <td>浅橡木色，直径80cm</td>
+                  <td class="center-col">个</td>
+                  <td class="center-col">1</td>
+                  <td class="price-col">¥ 800.00</td>
+                  <td class="price-col price">¥ 800.00</td>
+                  <td>淘宝采购</td>
+                </tr>
+                <tr>
+                  <td class="center-col">14</td>
+                  <td>客厅</td>
+                  <td>悬空电视柜</td>
+                  <td>浅橡木色，1.8米</td>
+                  <td class="center-col">个</td>
+                  <td class="center-col">1</td>
+                  <td class="price-col">¥ 1,200.00</td>
+                  <td class="price-col price">¥ 1,200.00</td>
+                  <td>定制</td>
+                </tr>
+                <tr>
+                  <td class="center-col">15</td>
+                  <td>客厅</td>
+                  <td>客厅灯具</td>
+                  <td>无主灯磁吸灯+筒灯</td>
+                  <td class="center-col">套</td>
+                  <td class="center-col">1</td>
+                  <td class="price-col">¥ 1,500.00</td>
+                  <td class="price-col price">¥ 1,500.00</td>
+                  <td>含安装</td>
+                </tr>
+                <tr>
+                  <td class="center-col">16</td>
+                  <td>客厅</td>
+                  <td>全屋窗帘</td>
+                  <td>亚麻纱帘+遮光帘，米白色</td>
+                  <td class="center-col">套</td>
+                  <td class="center-col">1</td>
+                  <td class="price-col">¥ 3,500.00</td>
+                  <td class="price-col price">¥ 3,500.00</td>
+                  <td>含安装，全屋6个窗户</td>
+                </tr>
+                <tr>
+                  <td class="center-col">17</td>
+                  <td>客厅</td>
+                  <td>客厅地毯</td>
+                  <td>浅米色短毛，2*3米</td>
+                  <td class="center-col">张</td>
+                  <td class="center-col">1</td>
+                  <td class="price-col">¥ 600.00</td>
+                  <td class="price-col price">¥ 600.00</td>
+                  <td>淘宝采购</td>
+                </tr>
+                <tr>
+                  <td class="center-col">36</td>
+                  <td>客厅</td>
+                  <td>客厅空调</td>
+                  <td>美的1.5匹挂机</td>
+                  <td class="center-col">台</td>
+                  <td class="center-col">1</td>
+                  <td class="price-col">¥ 2,800.00</td>
+                  <td class="price-col price">¥ 2,800.00</td>
+                  <td>京东采购，含安装</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="category-group">
+          <h3 class="category-title">
+            <span>主卧</span>
+            <div class="title-actions">
+              <span
+                style="
+                  color: var(--text-main);
+                  font-weight: normal;
+                  margin-right: 15px;
+                "
+                >小计：¥ 10,300.00</span
+              >
+              <button
+                class="export-btn"
+                onclick="exportTable('soft-table-4', '主卧软装清单')"
+              >
+                导出表格
+              </button>
+            </div>
+          </h3>
+          <div class="table-container" style="border: none; border-radius: 0">
+            <table id="soft-table-4">
+              <thead>
+                <tr>
+                  <th class="center-col">序号</th>
+                  <th>位置</th>
+                  <th>产品名称</th>
+                  <th>品牌/规格</th>
+                  <th class="center-col">单位</th>
+                  <th class="center-col">数量</th>
+                  <th class="price-col">单价(元)</th>
+                  <th class="price-col">总价(元)</th>
+                  <th>备注</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="center-col">18</td>
+                  <td>主卧（卧室B）</td>
+                  <td>1.8米实木床</td>
+                  <td>浅橡木色，简约款</td>
+                  <td class="center-col">张</td>
+                  <td class="center-col">1</td>
+                  <td class="price-col">¥ 2,500.00</td>
+                  <td class="price-col price">¥ 2,500.00</td>
+                  <td>淘宝采购</td>
+                </tr>
+                <tr>
+                  <td class="center-col">19</td>
+                  <td>主卧</td>
+                  <td>天然乳胶床垫</td>
+                  <td>1.8*2米</td>
+                  <td class="center-col">张</td>
+                  <td class="center-col">1</td>
+                  <td class="price-col">¥ 3,000.00</td>
+                  <td class="price-col price">¥ 3,000.00</td>
+                  <td>京东采购</td>
+                </tr>
+                <tr>
+                  <td class="center-col">20</td>
+                  <td>主卧</td>
+                  <td>L型梳妆台</td>
+                  <td>浅橡木色</td>
+                  <td class="center-col">个</td>
+                  <td class="center-col">1</td>
+                  <td class="price-col">¥ 1,200.00</td>
+                  <td class="price-col price">¥ 1,200.00</td>
+                  <td>定制</td>
+                </tr>
+                <tr>
+                  <td class="center-col">21</td>
+                  <td>主卧</td>
+                  <td>卧室灯具</td>
+                  <td>吸顶灯+床头壁灯</td>
+                  <td class="center-col">套</td>
+                  <td class="center-col">1</td>
+                  <td class="price-col">¥ 800.00</td>
+                  <td class="price-col price">¥ 800.00</td>
+                  <td>含安装</td>
+                </tr>
+                <tr>
+                  <td class="center-col">37</td>
+                  <td>主卧（卧室B）</td>
+                  <td>卧室空调</td>
+                  <td>美的1.5匹挂机</td>
+                  <td class="center-col">台</td>
+                  <td class="center-col">1</td>
+                  <td class="price-col">¥ 2,800.00</td>
+                  <td class="price-col price">¥ 2,800.00</td>
+                  <td>京东采购，含安装</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="category-group">
+          <h3 class="category-title">
+            <span>次卧A</span>
+            <div class="title-actions">
+              <span
+                style="
+                  color: var(--text-main);
+                  font-weight: normal;
+                  margin-right: 15px;
+                "
+                >小计：¥ 8,400.00</span
+              >
+              <button
+                class="export-btn"
+                onclick="exportTable('soft-table-5', '次卧A软装清单')"
+              >
+                导出表格
+              </button>
+            </div>
+          </h3>
+          <div class="table-container" style="border: none; border-radius: 0">
+            <table id="soft-table-5">
+              <thead>
+                <tr>
+                  <th class="center-col">序号</th>
+                  <th>位置</th>
+                  <th>产品名称</th>
+                  <th>品牌/规格</th>
+                  <th class="center-col">单位</th>
+                  <th class="center-col">数量</th>
+                  <th class="price-col">单价(元)</th>
+                  <th class="price-col">总价(元)</th>
+                  <th>备注</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="center-col">22</td>
+                  <td>次卧A（卧室A）</td>
+                  <td>1.5米实木床</td>
+                  <td>浅橡木色</td>
+                  <td class="center-col">张</td>
+                  <td class="center-col">1</td>
+                  <td class="price-col">¥ 1,800.00</td>
+                  <td class="price-col price">¥ 1,800.00</td>
+                  <td>淘宝采购</td>
+                </tr>
+                <tr>
+                  <td class="center-col">23</td>
+                  <td>次卧A</td>
+                  <td>弹簧床垫</td>
+                  <td>1.5*2米</td>
+                  <td class="center-col">张</td>
+                  <td class="center-col">1</td>
+                  <td class="price-col">¥ 1,500.00</td>
+                  <td class="price-col price">¥ 1,500.00</td>
+                  <td>京东采购</td>
+                </tr>
+                <tr>
+                  <td class="center-col">24</td>
+                  <td>次卧A</td>
+                  <td>书桌+书架一体</td>
+                  <td>浅橡木色，1.2米</td>
+                  <td class="center-col">套</td>
+                  <td class="center-col">1</td>
+                  <td class="price-col">¥ 2,000.00</td>
+                  <td class="price-col price">¥ 2,000.00</td>
+                  <td>定制</td>
+                </tr>
+                <tr>
+                  <td class="center-col">25</td>
+                  <td>次卧A</td>
+                  <td>卧室灯具</td>
+                  <td>吸顶灯</td>
+                  <td class="center-col">个</td>
+                  <td class="center-col">1</td>
+                  <td class="price-col">¥ 300.00</td>
+                  <td class="price-col price">¥ 300.00</td>
+                  <td>含安装</td>
+                </tr>
+                <tr>
+                  <td class="center-col">38</td>
+                  <td>次卧A（卧室A）</td>
+                  <td>卧室空调</td>
+                  <td>美的1.5匹挂机</td>
+                  <td class="center-col">台</td>
+                  <td class="center-col">1</td>
+                  <td class="price-col">¥ 2,800.00</td>
+                  <td class="price-col price">¥ 2,800.00</td>
+                  <td>京东采购，含安装</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="category-group">
+          <h3 class="category-title">
+            <span>次卧C</span>
+            <div class="title-actions">
+              <span
+                style="
+                  color: var(--text-main);
+                  font-weight: normal;
+                  margin-right: 15px;
+                "
+                >小计：¥ 8,100.00</span
+              >
+              <button
+                class="export-btn"
+                onclick="exportTable('soft-table-6', '次卧C软装清单')"
+              >
+                导出表格
+              </button>
+            </div>
+          </h3>
+          <div class="table-container" style="border: none; border-radius: 0">
+            <table id="soft-table-6">
+              <thead>
+                <tr>
+                  <th class="center-col">序号</th>
+                  <th>位置</th>
+                  <th>产品名称</th>
+                  <th>品牌/规格</th>
+                  <th class="center-col">单位</th>
+                  <th class="center-col">数量</th>
+                  <th class="price-col">单价(元)</th>
+                  <th class="price-col">总价(元)</th>
+                  <th>备注</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="center-col">26</td>
+                  <td>次卧C（卧室C）</td>
+                  <td>1.5米实木单人床</td>
+                  <td>浅橡木色</td>
+                  <td class="center-col">张</td>
+                  <td class="center-col">1</td>
+                  <td class="price-col">¥ 1,600.00</td>
+                  <td class="price-col price">¥ 1,600.00</td>
+                  <td>淘宝采购</td>
+                </tr>
+                <tr>
+                  <td class="center-col">27</td>
+                  <td>次卧C</td>
+                  <td>弹簧床垫</td>
+                  <td>1.5*2米</td>
+                  <td class="center-col">张</td>
+                  <td class="center-col">1</td>
+                  <td class="price-col">¥ 1,200.00</td>
+                  <td class="price-col price">¥ 1,200.00</td>
+                  <td>京东采购</td>
+                </tr>
+                <tr>
+                  <td class="center-col">28</td>
+                  <td>次卧C</td>
+                  <td>通顶衣柜</td>
+                  <td>浅橡木色</td>
+                  <td class="center-col">个</td>
+                  <td class="center-col">1</td>
+                  <td class="price-col">¥ 2,200.00</td>
+                  <td class="price-col price">¥ 2,200.00</td>
+                  <td>定制</td>
+                </tr>
+                <tr>
+                  <td class="center-col">29</td>
+                  <td>次卧C</td>
+                  <td>卧室灯具</td>
+                  <td>吸顶灯</td>
+                  <td class="center-col">个</td>
+                  <td class="center-col">1</td>
+                  <td class="price-col">¥ 300.00</td>
+                  <td class="price-col price">¥ 300.00</td>
+                  <td>含安装</td>
+                </tr>
+                <tr>
+                  <td class="center-col">39</td>
+                  <td>次卧C（卧室C）</td>
+                  <td>卧室空调</td>
+                  <td>美的1.5匹挂机</td>
+                  <td class="center-col">台</td>
+                  <td class="center-col">1</td>
+                  <td class="price-col">¥ 2,800.00</td>
+                  <td class="price-col price">¥ 2,800.00</td>
+                  <td>京东采购，含安装</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="category-group">
+          <h3 class="category-title">
+            <span>卫生间</span>
+            <div class="title-actions">
+              <span
+                style="
+                  color: var(--text-main);
+                  font-weight: normal;
+                  margin-right: 15px;
+                "
+                >小计：¥ 12,000.00</span
+              >
+              <button
+                class="export-btn"
+                onclick="exportTable('soft-table-7', '卫生间软装清单')"
+              >
+                导出表格
+              </button>
+            </div>
+          </h3>
+          <div class="table-container" style="border: none; border-radius: 0">
+            <table id="soft-table-7">
+              <thead>
+                <tr>
+                  <th class="center-col">序号</th>
+                  <th>位置</th>
+                  <th>产品名称</th>
+                  <th>品牌/规格</th>
+                  <th class="center-col">单位</th>
+                  <th class="center-col">数量</th>
+                  <th class="price-col">单价(元)</th>
+                  <th class="price-col">总价(元)</th>
+                  <th>备注</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="center-col">30</td>
+                  <td>两个卫生间</td>
+                  <td>浴室柜套装</td>
+                  <td>悬空原木款，80cm</td>
+                  <td class="center-col">套</td>
+                  <td class="center-col">2</td>
+                  <td class="price-col">¥ 1,500.00</td>
+                  <td class="price-col price">¥ 3,000.00</td>
+                  <td>含镜柜、安装</td>
+                </tr>
+                <tr>
+                  <td class="center-col">31</td>
+                  <td>两个卫生间</td>
+                  <td>智能马桶</td>
+                  <td>海尔</td>
+                  <td class="center-col">台</td>
+                  <td class="center-col">2</td>
+                  <td class="price-col">¥ 2,500.00</td>
+                  <td class="price-col price">¥ 5,000.00</td>
+                  <td>含安装</td>
+                </tr>
+                <tr>
+                  <td class="center-col">32</td>
+                  <td>两个卫生间</td>
+                  <td>恒温花洒套装</td>
+                  <td>箭牌</td>
+                  <td class="center-col">套</td>
+                  <td class="center-col">2</td>
+                  <td class="price-col">¥ 1,200.00</td>
+                  <td class="price-col price">¥ 2,400.00</td>
+                  <td>含安装</td>
+                </tr>
+                <tr>
+                  <td class="center-col">33</td>
+                  <td>两个卫生间</td>
+                  <td>卫浴五金</td>
+                  <td>毛巾架、置物架</td>
+                  <td class="center-col">套</td>
+                  <td class="center-col">2</td>
+                  <td class="price-col">¥ 800.00</td>
+                  <td class="price-col price">¥ 1,600.00</td>
+                  <td>含安装</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="category-group">
+          <h3 class="category-title">
+            <span>全屋</span>
+            <div class="title-actions">
+              <span
+                style="
+                  color: var(--text-main);
+                  font-weight: normal;
+                  margin-right: 15px;
+                "
+                >小计：¥ 5,500.00</span
+              >
+              <button
+                class="export-btn"
+                onclick="exportTable('soft-table-8', '全屋软装清单')"
+              >
+                导出表格
+              </button>
+            </div>
+          </h3>
+          <div class="table-container" style="border: none; border-radius: 0">
+            <table id="soft-table-8">
+              <thead>
+                <tr>
+                  <th class="center-col">序号</th>
+                  <th>位置</th>
+                  <th>产品名称</th>
+                  <th>品牌/规格</th>
+                  <th class="center-col">单位</th>
+                  <th class="center-col">数量</th>
+                  <th class="price-col">单价(元)</th>
+                  <th class="price-col">总价(元)</th>
+                  <th>备注</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="center-col">34</td>
+                  <td>全屋</td>
+                  <td>装饰画+绿植</td>
+                  <td>客厅、卧室装饰画，大型绿植</td>
+                  <td class="center-col">套</td>
+                  <td class="center-col">1</td>
+                  <td class="price-col">¥ 1,500.00</td>
+                  <td class="price-col price">¥ 1,500.00</td>
+                  <td>淘宝采购</td>
+                </tr>
+                <tr>
+                  <td class="center-col">35</td>
+                  <td>全屋</td>
+                  <td>清洁用品套装</td>
+                  <td>吸尘器、扫地机器人、清洁工具</td>
+                  <td class="center-col">套</td>
+                  <td class="center-col">1</td>
+                  <td class="price-col">¥ 4,000.00</td>
+                  <td class="price-col price">¥ 4,000.00</td>
+                  <td>京东采购</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="category-group">
+          <h3 class="category-title">
+            <span>阳台</span>
+            <div class="title-actions">
+              <span
+                style="
+                  color: var(--text-main);
+                  font-weight: normal;
+                  margin-right: 15px;
+                "
+                >小计：¥ 6,300.00</span
+              >
+              <button
+                class="export-btn"
+                onclick="exportTable('soft-table-9', '阳台软装清单')"
+              >
+                导出表格
+              </button>
+            </div>
+          </h3>
+          <div class="table-container" style="border: none; border-radius: 0">
+            <table id="soft-table-9">
+              <thead>
+                <tr>
+                  <th class="center-col">序号</th>
+                  <th>位置</th>
+                  <th>产品名称</th>
+                  <th>品牌/规格</th>
+                  <th class="center-col">单位</th>
+                  <th class="center-col">数量</th>
+                  <th class="price-col">单价(元)</th>
+                  <th class="price-col">总价(元)</th>
+                  <th>备注</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="center-col">-</td>
+                  <td>阳台</td>
+                  <td>洗烘套装</td>
+                  <td>预估</td>
+                  <td class="center-col">套</td>
+                  <td class="center-col">1</td>
+                  <td class="price-col">¥ 6,000.00</td>
+                  <td class="price-col price">¥ 6,000.00</td>
+                  <td>补充项</td>
+                </tr>
+                <tr>
+                  <td class="center-col">-</td>
+                  <td>阳台</td>
+                  <td>晾衣架</td>
+                  <td>预估</td>
+                  <td class="center-col">个</td>
+                  <td class="center-col">1</td>
+                  <td class="price-col">¥ 300.00</td>
+                  <td class="price-col price">¥ 300.00</td>
+                  <td>新增</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- 户型优化部分 -->
+      <div class="content-section" id="floorplan">
+        <h2 class="section-title">原户型十字中轴线规划</h2>
+
+        <div class="axis-note">
+          <h3>十字中轴线设计逻辑</h3>
+          <p>
+            <strong>竖中轴线（黄色竖线）</strong
+            >：穿过厨房、过道正中心，上下贯穿户型，把户型左右对半拆分。左侧为3个卧室+双卫生间静区（休息区），右侧为客餐厅+双阳台动区（活动区）。装修时沿竖线两侧做原木通顶收纳柜，刚好依托中轴线对称做收纳，消化4.2㎡过道浪费面积。
+          </p>
+          <p style="margin-top: 10px">
+            <strong>横中轴线（黄色横线）</strong
+            >：横穿卫生间A、卧室A、客厅中部，左右贯通全屋。上半区为卧室C、厨卫、北向阳台B，下半区为主卧B、次卧A、客厅+南向阳台A。装修时客餐厅家具沿横线对称摆放，餐桌居中在横线北侧、沙发在横线南侧，保证南北阳台通风对流不被家具遮挡。
+          </p>
+        </div>
+
+        <h2 class="section-title">核心户型优化方案</h2>
+        <ul class="highlight-list">
+          <li>
+            <strong>入户玄关优化</strong
+            >：入户右侧做顶天立地原木鞋柜+半高格栅隔断，解决无玄关隐私差问题，同时增加收纳空间。
+          </li>
+          <li>
+            <strong>过道空间优化</strong
+            >：过道两侧做嵌入式通顶原木收纳柜，深度32cm，不影响通行，把4.2㎡的浪费面积变成实用收纳区。
+          </li>
+          <li>
+            <strong>厨房采光优化</strong
+            >：把厨房门换成超白长虹玻璃推拉门，让餐厅光线透进厨房，解决暗厨问题，同时不影响厨房油烟隔离。
+          </li>
+          <li>
+            <strong>次卧噪音优化</strong
+            >：给公卫包下水管贴隔音棉，同时给公卫和次卧C的共用墙做轻钢龙骨+隔音棉+双层石膏板，解决噪音干扰问题。
+          </li>
+          <li>
+            <strong>全屋收纳优化</strong
+            >：三个卧室做通顶定制衣柜，餐厅做餐边柜，阳台做铝柜，全屋收纳系统最大化利用空间，解决老小区收纳不足问题。
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <script>
+      // 标签切换功能
+      const tabs = document.querySelectorAll(".nav-tab");
+      const sections = document.querySelectorAll(".content-section");
+
+      tabs.forEach((tab) => {
+        tab.addEventListener("click", () => {
+          const target = tab.dataset.tab;
+          // 移除所有active类
+          tabs.forEach((t) => t.classList.remove("active"));
+          sections.forEach((s) => s.classList.remove("active"));
+          // 添加active类
+          tab.classList.add("active");
+          document.getElementById(target).classList.add("active");
+        });
+      });
+
+      // 导出CSV功能
+      function exportTableToCSV(tableIds, filename) {
+        let csv = [];
+
+        tableIds.forEach((id, index) => {
+          const table = document.getElementById(id);
+          if (!table) return;
+
+          // 加入表头区分(如果有多个表)
+          if (tableIds.length > 1) {
+            let tableName = "清单";
+            if (id === "hard-table") tableName = "硬装清单";
+            else {
+              let titleNode = table.closest(".category-group");
+              if (titleNode) {
+                tableName =
+                  titleNode.querySelector(".category-title span").innerText +
+                  " 软装清单";
+              }
+            }
+            csv.push(tableName);
+          }
+
+          const rows = table.querySelectorAll("tr");
+          for (let i = 0; i < rows.length; i++) {
+            let row = [],
+              cols = rows[i].querySelectorAll("td, th");
+            for (let j = 0; j < cols.length; j++) {
+              let data = cols[j].innerText
+                .replace(/(\r\n|\n|\r)/gm, "")
+                .replace(/(\s\s)/gm, " ");
+              if (data.includes("¥")) {
+                data = data.replace(/¥/g, "").replace(/,/g, "").trim();
+              }
+              data = data.replace(/"/g, '""');
+              row.push('"' + data + '"');
+            }
+            csv.push(row.join(","));
+          }
+          // 在多表之间加空行
+          if (index < tableIds.length - 1) csv.push("");
+        });
+
+        downloadCSV(csv.join("\n"), filename);
+      }
+
+      function downloadCSV(csv, filename) {
+        let csvFile;
+        let downloadLink;
+        csvFile = new Blob(["\ufeff", csv], { type: "text/csv;charset=utf-8" });
+        downloadLink = document.createElement("a");
+        downloadLink.download = filename + ".csv";
+        downloadLink.href = window.URL.createObjectURL(csvFile);
+        downloadLink.style.display = "none";
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+      }
+
+      function exportTable(tableId, filename) {
+        exportTableToCSV([tableId], filename);
+      }
+
+      function exportMultipleTables(hardIds, softIds, filename) {
+        exportTableToCSV([...hardIds, ...softIds], filename);
+      }
+    </script>
+  </body>
+</html>
