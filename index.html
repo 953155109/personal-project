@@ -1292,6 +1292,18 @@
               });
             };
 
+            // Cleanup function to normalize names
+            function cleanName(val) {
+              if (!val) return "";
+              let s = String(val).split("，")[0].split(",")[0].trim();
+              s = s.replace(/\s*\(.*?\)\s*/g, "").replace(/\s*（.*?）\s*/g, "");
+              s = s.replace(
+                /\s*(WIFI\s*12\+2\+1|WIFI\s*6\+2\+1|12\+2\+1\s*相?|6\+2\+1\s*相?|TLC|A-die|单面|C\d{2}|海力士|镁光|六管双塔|双塔六热管|六热管双塔|双塔风冷|六热管|ARGB\s*风冷|WIFI\d*[a-zA-Z]*)/gi,
+                "",
+              );
+              return s.replace(/\s+/g, " ").trim();
+            }
+
             // Filtering
             function applyFilters() {
               let filtered = [...rawData];
@@ -1466,17 +1478,7 @@
                 handle: "tr",
               });
 
-              // Cleanup function to normalize names
-              function cleanName(val) {
-                if (!val) return "";
-                let s = String(val).split("，")[0].split(",")[0].trim();
-                s = s.replace(/\s*\(.*?\)\s*/g, "").replace(/\s*（.*?）\s*/g, "");
-                s = s.replace(
-                  /\s*(WIFI\s*12\+2\+1|WIFI\s*6\+2\+1|12\+2\+1\s*相?|6\+2\+1\s*相?|TLC|A-die|单面|C\d{2}|海力士|镁光|六管双塔|双塔六热管|六热管双塔|双塔风冷|六热管|ARGB\s*风冷|WIFI\d*[a-zA-Z]*)/gi,
-                  "",
-                );
-                return s.replace(/\s+/g, " ").trim();
-              }
+
 
               // Populate specific model dropdowns dynamically
               const filterColumns = [
