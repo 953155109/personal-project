@@ -564,7 +564,7 @@
                     <tr>
                         <td class="center-col">${safeVal(row["万科城市花园105㎡户型装修软装清单"])}</td>
                         <td>${safeVal(row["Unnamed: 1"])}</td>
-                        <td>${safeVal(row["Unnamed: 2"])}</td>
+                        <td class="editable-cell" contenteditable="true" onblur="updateSoft(${globalIndex}, 'name', this.innerText)">${safeVal(row["Unnamed: 2"])}</td>
                         <td class="editable-cell" contenteditable="true" onblur="updateSoft(${globalIndex}, 'desc', this.innerText)">${safeVal(row["Unnamed: 3"])}</td>
                         <td class="center-col">${safeVal(row["Unnamed: 4"])}</td>
                         <td class="center-col editable-cell" contenteditable="true" onblur="updateSoft(${globalIndex}, 'qty', this.innerText)">${safeVal(row["Unnamed: 5"])}</td>
@@ -582,6 +582,8 @@
                     <span>${groupName}</span>
                     <div class="title-actions">
                       <span style="color: var(--text-main); font-weight: normal; margin-right: 15px;">小计：${formatPrice(groupTotal)}</span>
+                      <button class="export-btn" style="background: #e6a23c;" onclick="addSoftItem('${groupName}')">添加一项</button>
+                      <button class="export-btn" style="background: #3fb950;" onclick="saveData()">保存</button>
                       <button class="export-btn" onclick="exportTable('soft-table-${groupIdx}', '${groupName}软装清单')">导出表格</button>
                     </div>
                   </h3>
@@ -591,7 +593,7 @@
                         <tr>
                           <th class="center-col">序号</th>
                           <th>位置</th>
-                          <th>产品名称</th>
+                          <th>产品名称(可改)</th>
                           <th>品牌/规格(可改)</th>
                           <th class="center-col">单位</th>
                           <th class="center-col">数量(可改)</th>
@@ -629,10 +631,26 @@
       }
 
       function updateSoft(index, field, val) {
+          if(field === 'name') appData.soft_items[index]["Unnamed: 2"] = val;
           if(field === 'desc') appData.soft_items[index]["Unnamed: 3"] = val;
           if(field === 'qty') appData.soft_items[index]["Unnamed: 5"] = val;
           if(field === 'price') appData.soft_items[index]["Unnamed: 6"] = val;
           if(field === 'note') appData.soft_items[index]["Unnamed: 8"] = val;
+          renderAll();
+      }
+
+      function addSoftItem(groupName) {
+          appData.soft_items.push({
+              "万科城市花园105㎡户型装修软装清单": appData.soft_items.length + 1,
+              "Unnamed: 1": groupName,
+              "Unnamed: 2": "新增产品",
+              "Unnamed: 3": "",
+              "Unnamed: 4": "件",
+              "Unnamed: 5": "1",
+              "Unnamed: 6": "0",
+              "Unnamed: 7": 0,
+              "Unnamed: 8": ""
+          });
           renderAll();
       }
 
@@ -691,9 +709,7 @@
            for (let i = 0; i < rows.length; i++) {
                let row = [], cols = rows[i].querySelectorAll('td, th');
                for (let j = 0; j < cols.length; j++) {
-                   let data = cols[j].innerText.replace(/(
-|
-|)/gm, '').replace(/(\s\s)/gm, ' ');
+                   let data = cols[j].innerText.replace(/(\r\n|\n|\r)/gm, '').replace(/(\s\s)/gm, ' ');
                    if (data.includes('¥')) {
                        data = data.replace(/¥/g, '').replace(/,/g, '').trim();
                    }
